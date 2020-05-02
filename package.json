@@ -4,7 +4,7 @@
   "description": "tech proof indigitall",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "keywords": [
     "tech",

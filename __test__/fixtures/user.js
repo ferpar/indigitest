@@ -1,25 +1,17 @@
 const faker = require('faker')
-const cuid = require('cuid')
+const Id = require('../../Id')
+const { languages } = require('../../constants.json')
 
-const Id = Object.freeze({
-  makeId: cuid,
-  isValidId: cuid.isCuid
-})
-
-const locales = [
-  en, es, fr, de, it, pt
-]
-
-export default function makeFakeUser (overrides) {
+function makeFakeUser (overrides) {
  const user = {
    id: Id.makeId(),
-   username: faker.internet.userName,
-   email: faker.internet.email,
-   password: faker.internet.password,
+   username: faker.internet.userName(),
+   email: faker.internet.email(),
+   password: faker.internet.password(),
    source: {
-     longitude: faker.address.longitude,
-     latitude: faker.address.latitude,
-     locale: locales[Math.floor(Math.random()*locales.length)]
+     longitude: faker.address.longitude(),
+     latitude: faker.address.latitude(),
+     language: languages[Math.floor(Math.random()*languages.length)]
    }
  }
   return {
@@ -27,3 +19,5 @@ export default function makeFakeUser (overrides) {
     ...overrides
   }
 }
+
+module.exports = makeFakeUser
