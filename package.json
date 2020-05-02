@@ -21,6 +21,7 @@
     "jest": "^25.5.4"
   },
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "cuid": "^2.1.8"
   }
 }
