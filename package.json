@@ -1,0 +1,26 @@
+{
+  "name": "indigitest",
+  "version": "1.0.0",
+  "description": "tech proof indigitall",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "tech",
+    "proof",
+    "indigitall",
+    "fernando",
+    "perez",
+    "ayala"
+  ],
+  "author": "Fernando Perez de Ayala",
+  "license": "ISC",
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jest": "^25.5.4"
+  },
+  "dependencies": {
+    "cuid": "^2.1.8"
+  }
+}
