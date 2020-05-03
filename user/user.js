@@ -1,4 +1,4 @@
-function buildMakeUser ({ Id }) {
+function buildMakeUser ({ Id, sanitize }) {
   return function makeUser ({
     id = Id.makeId(),
     username,
@@ -23,6 +23,15 @@ function buildMakeUser ({ Id }) {
     }
     if ( -90 > latitude || 90 < latitude){
       throw new Error('invalid latitude value: out of range (-90, 90)') 
+    }
+    if (sanitize(username) != username){
+      throw new Error('invalid username')
+    }
+    if (sanitize(password) != password){
+      throw new Error('invalid password')
+    }
+    if (sanitize(email) != email){
+      throw new Error('invalid email')
     }
     return Object.freeze({
       getId: () => id,
