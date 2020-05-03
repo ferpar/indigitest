@@ -57,4 +57,14 @@ describe('user actions', () => {
     expect(retrievedUserInfo).toEqual(changedUserInfo)
     expect(retrievedUserInfo).not.toEqual(userInfo)
   })
+  it('removes a user', async () => {
+    const userInfo = makeFakeUser()
+    const user = makeUser(userInfo)
+
+    await userActions.create(user)
+    
+    await userActions.remove(user)
+
+    expect(await userActions.getById(userInfo.id)).toBe('No such user')
+  })
 })
