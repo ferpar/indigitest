@@ -2,9 +2,6 @@ const makeFakeUser = require('../__test__/fixtures/user')
 const makeUser = require('./index')
 
 describe('social network user', () => {
-  it('can be tested', async () => {
-    expect(1 === 1).toBe(true)
-  })
   it('has an invalid id', () => {
     const userObj = makeFakeUser({id: '123'})
     expect(() => makeUser(userObj)).toThrow('User must have a valid id')

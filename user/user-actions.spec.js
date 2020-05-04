@@ -9,9 +9,6 @@ describe('user actions', () => {
     const userDb = makeUserDb();
     userActions = makeUserActions({ userDb })
   })
-  it('has a working test suite', () => {
-    expect(1===1).toBe(true) 
-  })
   it('stores users and finds them by id', async () => {
     const userInfo = makeFakeUser()
     const user = makeUser(userInfo)
