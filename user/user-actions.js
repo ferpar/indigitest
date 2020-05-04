@@ -11,9 +11,7 @@ function makeUserActions ({ userDb }) {
       await userDb.remove(user)
     },
     getFriends: async userId => await userDb.getFriends(userId),
-    addFriendship: async (userId1, userId2) => {
-      await userDb.addFriendship(userId1, userId2)
-    },
+    addFriendship: async (userId1, userId2) => await userDb.addFriendship(userId1, userId2),
     removeFriendship: async (userId1, userId2) => {
       await userDb.removeFriendship(userId1, userId2)
     },

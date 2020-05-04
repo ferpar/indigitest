@@ -36,10 +36,14 @@ function makeUserDb () {
         language: user.getSource().language
       })
     },
-    remove: async user => {
+    remove: async function(user) {
       if (!userMap.has(user.getId())){
         throw Error('No such user')
       }
+      const friends = friendshipMap.get(user.getId())
+      friends.forEach( friend => {
+        this.removeFriendship(user.getId(), friend)
+      })
       userMap.delete(user.getId())
     },
     getFriends: async userId => {
@@ -53,6 +57,11 @@ function makeUserDb () {
       if(!userId1 || !userId2) {
         return 'missing an id parameter'
       } 
+      const userId1Index = friendshipMap.get(userId2).findIndex( elem => elem === userId1)
+      const userId2Index = friendshipMap.get(userId1).findIndex( elem => elem === userId2)
+      if(userId1Index !== -1 && userId2Index !== -1){
+        return 'friendship already stored'
+      }
       friendshipMap.set(userId1, [...friendshipMap.get(userId1), userId2])
       friendshipMap.set(userId2, [...friendshipMap.get(userId2), userId1])
     },
