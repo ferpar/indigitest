@@ -59,12 +59,12 @@ function makeUserDb () {
     },
     addFriendship: async (userId1, userId2) => {
       if(!userId1 || !userId2) {
-        return 'missing an id parameter'
+        throw new Error('missing an id parameter')
       } 
       const userId1Index = friendshipMap.get(userId2).findIndex( elem => elem === userId1)
       const userId2Index = friendshipMap.get(userId1).findIndex( elem => elem === userId2)
       if(userId1Index !== -1 && userId2Index !== -1){
-        return 'friendship already stored'
+        throw new Error('friendship already stored')
       }
       friendshipMap.set(userId1, [...friendshipMap.get(userId1), userId2])
       friendshipMap.set(userId2, [...friendshipMap.get(userId2), userId1])

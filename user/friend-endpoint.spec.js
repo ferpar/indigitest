@@ -13,5 +13,9 @@ describe('friends endpoint handler', () => {
   it('has a working test', () => {
     expect(1===1).toBe(true)
   })
-
+  xit('creates new friendships and allows you to see them', async () => {
+  
+  })
+  xit('returns a friend count', async () => {})
+  xit('removes friendships', async () => {})
 })

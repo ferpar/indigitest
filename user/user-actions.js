@@ -43,7 +43,18 @@ function makeUserActions ({ userDb }) {
         })
     },
     getFriends: async userId => await userDb.getFriends(userId),
-    addFriendship: async (userId1, userId2) => await userDb.addFriendship(userId1, userId2),
+    addFriendship: async (userId1, userId2) => { 
+      await userDb.addFriendship(userId1, userId2)
+        .catch(err => {
+          if(err.message === 'friendship already stored'){
+            throw new Error('Friendship already exists')
+          } else if(err.message === 'missing an id parameter') {
+            throw new Error('Both ids are needed for establishing a friendship')
+          }else {
+            console.error('[user-actions] Error removing user', err)
+          }
+        })
+    },
     removeFriendship: async (userId1, userId2) => {
       await userDb.removeFriendship(userId1, userId2)
     },

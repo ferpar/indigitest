@@ -118,8 +118,19 @@ describe('user actions', () => {
     expect(await userActions.getFriends(user1Info.id)).toContain(user2Info.id)
     expect(await userActions.getFriends(user2Info.id)).toContain(user1Info.id)
 
-    expect(await userActions.addFriendship(user1Info.id, user2Info.id)).toBe('friendship already stored')
+    await expect(userActions.addFriendship(user1Info.id, user2Info.id)).rejects.toThrow('Friendship already exists')
   
+  })
+  it('throws an error when you dont introduce the id of both friends', async () => {
+    const user1Info = makeFakeUser()
+    const user1 = makeUser(user1Info)
+    const user2Info = makeFakeUser()
+    const user2 = makeUser(user2Info)
+
+    await userActions.create(user1)
+    await userActions.create(user2)
+   
+    await expect(userActions.addFriendship(user1Info.id)).rejects.toThrow('Both ids are needed for establishing a friendship')
   })
   it('removes a friendship on both ends', async () => {
     expect.assertions(4)
