@@ -72,13 +72,14 @@ describe('users endpoint handler', () => {
       method: 'DELETE',
       pathParams: userInfo.id
     })
-    //expect(deleteResponse.statusCode).toBe(200)
+    expect(deleteResponse.statusCode).toBe(200)
 
     const result = await handle({
       method: 'GET',
       pathParams: userInfo.id
     })
 
+    expect(result.statusCode).toBe(404)
     
   })
 })
