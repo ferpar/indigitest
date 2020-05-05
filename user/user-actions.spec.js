@@ -58,7 +58,7 @@ describe('user actions', () => {
 
     await userActions.create(user)
     
-    await userActions.remove(user)
+    await userActions.remove(user.getId())
 
     expect(await userActions.getById(userInfo.id)).toBe('No such user')
   })

@@ -36,15 +36,15 @@ function makeUserDb () {
         language: user.getSource().language
       })
     },
-    remove: async function(user) {
-      if (!userMap.has(user.getId())){
-        throw Error('No such user')
+    remove: async function(userId) {
+      if (!userMap.has(userId)){
+        return 'No such user'
       }
-      const friends = friendshipMap.get(user.getId())
+      const friends = friendshipMap.get(userId)
       friends.forEach( friend => {
-        this.removeFriendship(user.getId(), friend)
+        this.removeFriendship(userId, friend)
       })
-      userMap.delete(user.getId())
+      userMap.delete(userId)
     },
     getFriends: async userId => {
       if (!friendshipMap.has(userId)){
