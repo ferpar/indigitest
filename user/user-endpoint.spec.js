@@ -80,6 +80,6 @@ describe('users endpoint handler', () => {
     })
 
     expect(result.statusCode).toBe(404)
-    
   })
+  //it()
 })

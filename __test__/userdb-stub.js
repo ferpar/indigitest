@@ -4,6 +4,9 @@ function makeUserDb () {
   const friendshipMap = new Map()
   return Object.freeze({
     insert: async user => {
+      if(userMap.has(user.getId())){
+        throw new Error('Id taken: User already exists')
+      }
       userMap.set(user.getId(),{
         id: user.getId(),
         username: user.getUsername(),
@@ -24,7 +27,7 @@ function makeUserDb () {
     },
     update: async user => {
       if (!userMap.has(user.getId())){
-         return 'No such user'
+         throw new Error('No such user')
       }
       userMap.set(user.getId(),{
         ...userMap.get(user.getId()),

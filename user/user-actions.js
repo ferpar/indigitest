@@ -1,11 +1,15 @@
 function makeUserActions ({ userDb }) {
   return {
     create: async user => {
-      try {
-        await userDb.insert(user) 
-      } catch (err) {
-        console.error('[user-actions] Error creating user', err)
-      }
+      
+      await userDb.insert(user) 
+        .catch (err => {
+          if(err.message === 'Id Taken: User already exists'){
+            throw new Error('User already created')
+          } else {
+            console.error('[user-actions] Error creating user', err)
+          }
+        })
     },
     getById: async userId => { 
       try {
@@ -20,6 +24,13 @@ function makeUserActions ({ userDb }) {
     },
     update: async user => {
       await userDb.update(user)
+        .catch(err => {
+          if(err.message === 'No such user'){
+            throw new Error('User not found')
+          } else {
+            console.error('[user-actions] Error updating user', err)
+          }
+        })
     },
     remove: async userId => {
       await userDb.remove(userId)
