@@ -5,7 +5,7 @@ function makeUserActions ({ userDb }) {
       await userDb.insert(user) 
         .catch (err => {
           if(err.message === 'Id Taken: User already exists'){
-            throw new Error('User already created')
+            throw new Error('Conflict: User already created')
           } else {
             console.error('[user-actions] Error creating user', err)
           }

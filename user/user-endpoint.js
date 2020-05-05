@@ -31,15 +31,22 @@ function makeUsersEndpointHandler({ userActions }) {
         statusCode: 201
       }
     } catch (err) {
-      console.error('[user endpoint handler] Error posting user', err)
-      return makeHttpError({
-        error: err.message,
-        statusCode: 500
-      })
+      if (err.message === 'Conflict: User already created') {
+        return makeHttpError({
+          error: err.message,
+          statusCode: 409
+        })
+      } else {
+        console.error('[user endpoint handler] Error posting user', err)
+        return makeHttpError({
+          error: err.message,
+          statusCode: 500
+        })
+      }
     }
   }
   async function getUser(httpRequest){
-    const id = httpRequest.pathParams
+    const { id } = httpRequest.pathParams
     try {
       const result = await userActions.getById(id)
       return {
@@ -83,7 +90,7 @@ function makeUsersEndpointHandler({ userActions }) {
     }
   }
   async function removeUser(httpRequest){
-    const id = httpRequest.pathParams
+    const { id } = httpRequest.pathParams
     try {
       await userActions.remove(id)
       return {

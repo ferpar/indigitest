@@ -32,7 +32,7 @@ describe('users endpoint handler', () => {
 
     const result = await handle({
       method: 'GET',
-      pathParams: userInfo.id
+      pathParams: { id: userInfo.id }
     })
 
     expect(result.data.id).toBe(userInfo.id)
@@ -54,7 +54,7 @@ describe('users endpoint handler', () => {
 
     const result = await handle({
       method: 'GET',
-      pathParams: userInfo.id
+      pathParams: { id: userInfo.id }
     })
     
     expect(result.data.username).toBe(modifiedUserInfo.username)
@@ -70,16 +70,15 @@ describe('users endpoint handler', () => {
 
     const deleteResponse = await handle({
       method: 'DELETE',
-      pathParams: userInfo.id
+      pathParams: { id: userInfo.id }
     })
     expect(deleteResponse.statusCode).toBe(200)
 
     const result = await handle({
       method: 'GET',
-      pathParams: userInfo.id
+      pathParams: { id: userInfo.id }
     })
 
     expect(result.statusCode).toBe(404)
   })
-  //it()
 })
