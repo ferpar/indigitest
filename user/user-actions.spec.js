@@ -60,7 +60,7 @@ describe('user actions', () => {
     
     await userActions.remove(user.getId())
 
-    expect(await userActions.getById(userInfo.id)).toBe('No such user')
+    await expect(userActions.getById(userInfo.id)).rejects.toThrow('User not found')
   })
   it('creates a new entry at the friendship adjacency list alongside every new user', async () => {
     const userInfo = makeFakeUser()
@@ -141,7 +141,9 @@ describe('user actions', () => {
 
     expect(await userActions.friendCount(user1Info.id)).toEqual(2)
   })
-  it('deletes all friendships before removing a user', async () => {
+  xit('throws when the userId is not in the friendlist', async () => {})
+  it('deletes all friendships when removing a user', async () => {
+    expect.assertions(3)
     const user1Info = makeFakeUser()
     const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
@@ -156,7 +158,10 @@ describe('user actions', () => {
     await userActions.addFriendship(user1Info.id, user2Info.id) 
     await userActions.addFriendship(user1Info.id, user3Info.id) 
 
-    await userActions.remove(user1)
+    await userActions.remove(user1Info.id)
     
+    await expect( userActions.getFriends(user1Info.id)).rejects.toThrow('No such user on the friendlist')
+    await expect (userActions.getFriends(user2Info.id)).not.toContain(user1Info.id)
+    await expect (userActions.getFriends(user3Info.id)).not.toContain(user1Info.id)
   })
 })

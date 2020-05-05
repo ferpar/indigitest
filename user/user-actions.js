@@ -11,7 +11,11 @@ function makeUserActions ({ userDb }) {
       try {
         return await userDb.findById(userId) 
       } catch (err) {
+        if(err.message === 'No such user'){
+          throw new Error('User not found')
+        } else {
         console.error('[user-actions] Error retrieving user by Id', err) 
+        }
       }
     },
     update: async user => {
@@ -19,6 +23,13 @@ function makeUserActions ({ userDb }) {
     },
     remove: async userId => {
       await userDb.remove(userId)
+        .catch(err => {
+          if(err.message === 'No such user'){
+            throw new Error('User not found')
+          } else {
+            console.error('[user-actions] Error removing user', err)
+          }
+        })
     },
     getFriends: async userId => await userDb.getFriends(userId),
     addFriendship: async (userId1, userId2) => await userDb.addFriendship(userId1, userId2),

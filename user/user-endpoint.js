@@ -11,6 +11,8 @@ function makeUsersEndpointHandler({ userActions }) {
         return getUser(httpRequest)
       case 'PATCH':
         return updateUser(httpRequest)
+      case 'DELETE':
+        return removeUser(httpRequest)
       default:
         return makeHttpError({
           statusCode: 405,
@@ -48,11 +50,18 @@ function makeUsersEndpointHandler({ userActions }) {
         data: unpackUser(result)
       }
     } catch (err) {
-      console.error('[user endpoint handler] Error getting user', err)
-      return makeHttpError({
-        error: err.message,
-        statusCode: 500
-      })
+      if (err.message === 'User not found') {
+        return makeHttpError({
+          error: err.message,
+          statusCode: 404
+        })
+      } else {
+        console.error('[user endpoint handler] Error getting user', err)
+        return makeHttpError({
+          error: err.message,
+          statusCode: 500
+        })
+      }
     }
   }
   async function updateUser(httpRequest){
@@ -71,6 +80,31 @@ function makeUsersEndpointHandler({ userActions }) {
         error: err.message,
         statusCode: 500
       })
+    }
+  }
+  async function removeUser(httpRequest){
+    const id = httpRequest.pathParams
+    try {
+      await userActions.remove(id)
+      return {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 200,
+      }
+    } catch (err) {
+      if (err.message === 'User not found'){
+        return makeHttpError({
+          error: err.message,
+          statusCode: 404
+        })
+      } else {
+        console.error('[user endpoint handler] Error removing user', err)
+        return makeHttpError({
+          error: err.message,
+          statusCode: 500
+        })
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ function makeUserDb () {
     },
     findById: async userId => {
       if (!userMap.has(userId)){
-         return 'No such user'
+         throw new Error('No such user')
       }
       const userInfo = userMap.get(userId)
       return makeUser(userInfo)
@@ -38,17 +38,18 @@ function makeUserDb () {
     },
     remove: async function(userId) {
       if (!userMap.has(userId)){
-        return 'No such user'
+        throw new Error('No such user')
       }
       const friends = friendshipMap.get(userId)
       friends.forEach( friend => {
         this.removeFriendship(userId, friend)
       })
+      friendshipMap.delete(userId)
       userMap.delete(userId)
     },
     getFriends: async userId => {
       if (!friendshipMap.has(userId)){
-        return 'No such user on the friendslist'
+        throw new Error('No such user on the friendlist')
       } else {
         return await friendshipMap.get(userId)
       } 
@@ -83,7 +84,7 @@ function makeUserDb () {
     },
     friendCount: async userId => {
       if (!friendshipMap.has(userId)){
-        return 'No such user on the friendslist'
+        throw new Error('No such user on the friendlist')
       }
       return friendshipMap.get(userId).length
     }

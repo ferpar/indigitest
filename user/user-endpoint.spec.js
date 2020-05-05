@@ -68,11 +68,11 @@ describe('users endpoint handler', () => {
       body: JSON.stringify(userInfo)
     })
 
-    const updateResponse = await handle({
+    const deleteResponse = await handle({
       method: 'DELETE',
-      body: JSON.stringify(modifiedUserInfo)
+      pathParams: userInfo.id
     })
-    //expect(updateResponse.statusCode).toBe(200)
+    //expect(deleteResponse.statusCode).toBe(200)
 
     const result = await handle({
       method: 'GET',
