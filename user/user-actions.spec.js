@@ -27,7 +27,14 @@ describe('user actions', () => {
 
     expect(retrievedUserInfo).toEqual(userInfo)
   })
-  xit('throws an error when the user already exists', async () => {})
+  it('throws an error when the user already exists', async () => {
+    const userInfo = makeFakeUser()
+    const user = makeUser(userInfo)
+  
+    await userActions.create(user)
+
+    await expect(userActions.create(user)).rejects.toThrow()
+  })
   it('updates stored users', async () => {
     expect.assertions(2)
     const userInfo = makeFakeUser()

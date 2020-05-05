@@ -11,9 +11,6 @@ describe('users endpoint handler', () => {
     const userActions = makeUserActions({ userDb })
     handle = makeUsersEndpointHandler({ userActions })
   })
-  it('it has a working test', () => {
-    expect(true).toBe(true)
-  })
   it('creates new users', async () => {
     const result = await handle({
       method: 'POST',
