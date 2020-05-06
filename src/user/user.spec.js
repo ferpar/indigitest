@@ -1,4 +1,4 @@
-const makeFakeUser = require('../__test__/fixtures/user')
+const makeFakeUser = require('../../__test__/fixtures/user')
 const makeUser = require('./index')
 
 describe('social network user', () => {

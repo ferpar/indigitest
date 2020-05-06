@@ -1,5 +1,5 @@
-const makeFakeUser = require('../__test__/fixtures/user')
-const makeUserDb = require('../__test__/userdb-stub')
+const makeFakeUser = require('../../__test__/fixtures/user')
+const makeUserDb = require('../../__test__/userdb-stub')
 const makeUserActions = require('../use-cases/user-actions')
 const makeUsersEndpointHandler = require('./user-endpoint')
 
