@@ -11,7 +11,7 @@ const dbtest = require('./db')
 const server = express()
 server.use(bodyParser.json())
 
-dbtest.query('SELECT * FROM users', (err, res) => {
+dbtest.query('SELECT * FROM users2', (err, res) => {
   if (err) {
     console.error('error reading users table', err)
   }

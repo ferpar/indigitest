@@ -2,7 +2,11 @@ const faker = require('faker')
 const Id = require('../../src/Id')
 const { languages } = require('../../src/constants.json')
 
-function makeFakeUser (overrides) {
+//second parameter hemisphere: 
+//    North by default, 
+//    any other value will imply South.
+
+function makeFakeUser (overrides, hemisphere = 'North') {
  const user = {
    id: Id.makeId(),
    username: faker.internet.userName(),
@@ -10,7 +14,9 @@ function makeFakeUser (overrides) {
    password: faker.internet.password(),
    source: {
      longitude: faker.address.longitude(),
-     latitude: faker.address.latitude(),
+     latitude: hemisphere === 'North' 
+        ? Math.abs(faker.address.latitude()) 
+        : Math.abs(faker.address.latitude())*(-1),
      language: languages[Math.floor(Math.random()*languages.length)]
    }
  }

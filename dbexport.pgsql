@@ -25,8 +25,8 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.friendships (
-    user_id uuid NOT NULL,
-    friends uuid[]
+    user_id character varying(50) NOT NULL,
+    friends character varying(50)[]
 );
 
 
@@ -37,7 +37,7 @@ ALTER TABLE public.friendships OWNER TO postgres;
 --
 
 CREATE TABLE public.users (
-    id uuid NOT NULL,
+    id character varying(50) NOT NULL,
     username character varying(50) NOT NULL,
     password character varying(50) NOT NULL,
     email character varying(355) NOT NULL,
