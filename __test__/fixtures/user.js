@@ -1,6 +1,6 @@
 const faker = require('faker')
 const Id = require('../../src/Id')
-const { languages } = require('../../constants.json')
+const { languages } = require('../../src/constants.json')
 
 function makeFakeUser (overrides) {
  const user = {
