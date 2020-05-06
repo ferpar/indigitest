@@ -1,13 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+/// use actual endpointhandlers initializes with postgres db
 const handleUserRequest = require('./controllers/user-endpoint')
 const handleFriendRequest = require('./controllers/friend-endpoint')
+// const { handleUserRequest, handleFriendRequest } = require('./controllers')
+/////
 const adaptRequest = require('./helpers/adaptRequest')
 
 const server = express()
 server.use(bodyParser.json())
 
 function usersController (req, res) {
+  console.log('httpRequest: ' + req.method + ' ' + req.path  )
   const httpRequest = adaptRequest(req)
   handleUserRequest(httpRequest)
     .then(({ headers, statusCode, data = {} }) => {
@@ -20,6 +24,7 @@ function usersController (req, res) {
 }
 
 function friendsController (req, res) {
+  console.log('httpRequest: ' + req.method + ' ' + req.path  )
   const httpRequest = adaptRequest(req)
   handleFriendRequest(httpRequest)
     .then(({ headers, statusCode, data = {} }) => {
