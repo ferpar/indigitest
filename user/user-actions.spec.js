@@ -188,7 +188,7 @@ describe('user actions', () => {
 
     await userActions.remove(user1Info.id)
     
-    await expect( userActions.getFriends(user1Info.id)).rejects.toThrow('No such user on the friendlist')
+    await expect( userActions.getFriends(user1Info.id)).rejects.toThrow('User not found')
     await expect (userActions.getFriends(user2Info.id)).not.toContain(user1Info.id)
     await expect (userActions.getFriends(user3Info.id)).not.toContain(user1Info.id)
   })

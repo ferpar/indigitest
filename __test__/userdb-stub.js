@@ -71,7 +71,7 @@ function makeUserDb () {
     },
     removeFriendship: async (userId1, userId2) => {
       if(!userId1 || !userId2) {
-        return 'missing an id parameter'
+        throw new Error('missing an id parameter')
       } 
       const userId1Index = friendshipMap.get(userId2).findIndex( elem => elem === userId1)
       const userId2Index = friendshipMap.get(userId1).findIndex( elem => elem === userId2)
