@@ -1,5 +1,5 @@
 const makeHttpError = require('../helpers/httpError')
-const makeUser = require('.')
+const makeUser = require('../user')
 const unpackUser = require('../helpers/unpack')
 
 function makeUsersEndpointHandler({ userActions }) {
