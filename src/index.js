@@ -7,6 +7,12 @@ const { handleUserRequest, handleFriendRequest } = require('./routes/index')
 const server = express()
 server.use(bodyParser.json())
 
+server.all('/user', usersController)
+server.get('/user/:id', usersController)
+
+server.all('/friend', friendsController)
+server.get('/friend/:type/:id', friendsController)
+
 function usersController (req, res) {
   console.log('httpRequest: ' + req.method + ' ' + req.path  )
   const httpRequest = adaptRequest(req)
