@@ -1,6 +1,8 @@
 const makeHttpError = require('../helpers/httpError')
 const makeUser = require('../user')
 const unpackUser = require('../helpers/unpack')
+const isSouthOrNorth = require('../helpers/isSouthOrNorth')
+const processSouthern = require('../helpers/processSouthern')
 
 function makeUsersEndpointHandler({ userActions }) {
   return function handle (httpRequest) {
@@ -23,7 +25,14 @@ function makeUsersEndpointHandler({ userActions }) {
   async function postUser(httpRequest){
     const userInfo = JSON.parse(httpRequest.body)
     try {
-      userActions.create(makeUser(userInfo))
+      if (await isSouthOrNorth( 
+        userInfo.source.latitude || userInfo.latitude, 
+        userInfo.source.longitude || userInfo.longitude
+      ) === "S") {
+        await processSouthern() 
+      } else {
+        await userActions.create(makeUser(userInfo))
+      }
       return {
         headers: {
           'Content-Type': 'application/json'
