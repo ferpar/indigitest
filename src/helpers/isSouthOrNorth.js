@@ -18,6 +18,8 @@ const isSouthOrNorth = (latitude, longitude) => {
       } else {
         reject(new Error("Bad values"));
       }
-    }, 700);
+    }, 70);
   });
 };
+
+module.exports = isSouthOrNorth

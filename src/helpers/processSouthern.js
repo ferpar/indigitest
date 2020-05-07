@@ -5,3 +5,5 @@ const processSouthern = (data) => {
     }, 1000);
   });
 };
+
+module.exports = processSouthern
