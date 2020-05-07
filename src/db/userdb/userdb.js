@@ -2,11 +2,6 @@ const makeUser = require('../../user')
 function makeUserDb({ db }) {
   return Object.freeze({
     insert: async function(user) {
-     // const found = await this.findById(user.getId()) 
-      //if (found) {
-      //  throw new Error('Id taken: User already exists')
-      //}
-      
       const client = await db.connect()
       let response
       try {

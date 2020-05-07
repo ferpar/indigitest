@@ -19,8 +19,8 @@ function makeFriendsEndpointHandler({ userActions }) {
     } 
   } 
   async function postFriendship(httpRequest){
-    const { id1, id2 } = JSON.parse(httpRequest.body)
     try {
+      const { id1, id2 } = JSON.parse(httpRequest.body)
       userActions.addFriendship(id1, id2)
       return {
         headers: {
@@ -49,8 +49,8 @@ function makeFriendsEndpointHandler({ userActions }) {
     }
   }
   async function getFriendship(httpRequest){
-    const { type, id } = httpRequest.pathParams
     try {
+      const { type, id } = httpRequest.pathParams
       const result = (type === 'list') 
         ? await userActions.getFriends(id)
         : await userActions.friendCount(id)
@@ -79,8 +79,8 @@ function makeFriendsEndpointHandler({ userActions }) {
     }
   }
   async function deleteFriendship(httpRequest){
-    const { id1, id2 } = JSON.parse(httpRequest.body)
     try {
+      const { id1, id2 } = JSON.parse(httpRequest.body)
       await userActions.removeFriendship(id1, id2)
       return {
         headers: {

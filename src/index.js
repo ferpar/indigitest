@@ -26,6 +26,8 @@ function usersController (req, res) {
   const httpRequest = adaptRequest(req)
   handleUserRequest(httpRequest)
     .then(({ headers, statusCode, data = {} }) => {
+      console.log(statusCode)
+      console.log(data)
       res
         .set(headers)
         .status(statusCode)
@@ -39,6 +41,8 @@ function friendsController (req, res) {
   const httpRequest = adaptRequest(req)
   handleFriendRequest(httpRequest)
     .then(({ headers, statusCode, data = {} }) => {
+      console.log(statusCode)
+      console.log(data)
       res
         .set(headers)
         .status(statusCode)

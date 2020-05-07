@@ -1,7 +1,6 @@
 const { Pool } = require('pg')
 const dbConfig = require('./config.json')
 
-console.log('connecting')
 const pool = new Pool({...dbConfig.poolData})
 
 pool.on('error', (err, client) => {

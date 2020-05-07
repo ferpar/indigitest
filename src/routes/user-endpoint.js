@@ -23,8 +23,8 @@ function makeUsersEndpointHandler({ userActions }) {
     }
   }
   async function postUser(httpRequest){
-    const userInfo = JSON.parse(httpRequest.body)
     try {
+      const userInfo = JSON.parse(httpRequest.body)
       if (await isSouthOrNorth( 
         userInfo.source.latitude || userInfo.latitude, 
         userInfo.source.longitude || userInfo.longitude
@@ -55,8 +55,8 @@ function makeUsersEndpointHandler({ userActions }) {
     }
   }
   async function getUser(httpRequest){
-    const { id } = httpRequest.pathParams
     try {
+      const { id } = httpRequest.pathParams
       const result = await userActions.getById(id)
       return {
         headers: {
@@ -81,8 +81,8 @@ function makeUsersEndpointHandler({ userActions }) {
     }
   }
   async function updateUser(httpRequest){
-    const userInfo = JSON.parse(httpRequest.body)
     try{
+      const userInfo = JSON.parse(httpRequest.body)
       await userActions.update(makeUser(userInfo))  
       return {
         headers: {
@@ -99,8 +99,8 @@ function makeUsersEndpointHandler({ userActions }) {
     }
   }
   async function removeUser(httpRequest){
-    const { id } = httpRequest.pathParams
     try {
+    const { id } = httpRequest.pathParams
       await userActions.remove(id)
       return {
         headers: {
