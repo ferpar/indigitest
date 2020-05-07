@@ -11,11 +11,11 @@
 
 ```
 {
-		"user": "postgres",
-		"password": "mysecpass",
-		"database": "indigitest",
-		"port": "5432",
-		"host": "localhost"		
+	"user": "postgres",
+	"password": "mysecpass",
+	"database": "indigitest",
+	"port": "5432",
+	"host": "localhost"		
 }
 ```
   That should do it. Keep in mind the server has a hardcoded port of 9090 => so expect it at http://localhost:9090 if you don't mess around with the index.js.
