@@ -17,6 +17,7 @@ server.use(bodyParser.json())
 
 server.all('/user', usersController)
 server.get('/user/:id', usersController)
+server.delete('/user/:id', usersController)
 
 server.all('/friend', friendsController)
 server.get('/friend/:type/:id', friendsController)

@@ -82,7 +82,7 @@ function makeUsersEndpointHandler({ userActions }) {
   }
   async function updateUser(httpRequest){
     try{
-      const userInfo = JSON.parse(httpRequest.body)
+      const userInfo = JSON.parse(JSON.stringify(httpRequest.body))
       await userActions.update(makeUser(userInfo))  
       return {
         headers: {

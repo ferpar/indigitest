@@ -45,7 +45,7 @@ describe('users endpoint handler', () => {
 
     const updateResponse = await handle({
       method: 'PATCH',
-      body: JSON.stringify(modifiedUserInfo)
+      body: modifiedUserInfo
     })
     expect(updateResponse.statusCode).toBe(200)
 
