@@ -34,10 +34,10 @@ This exercise consisted in building an API according to the given specification.
 ```
 {
 	"id": "ck9vik2sw0000cytlchrg5kik",
-  "username": "Fran.Dietrch27",
-  "email": "Cale28@hotmail.cm",
-  "password": "lFgE9Cus7maKtpr",
-  "longitude": "27.3772", 
+  	"username": "Fran.Dietrch27",
+  	"email": "Cale28@hotmail.cm",
+  	"password": "lFgE9Cus7maKtpr",
+  	"longitude": "27.3772", 
 	"latitude": "81.1052",
 	"language": "es"
 }
