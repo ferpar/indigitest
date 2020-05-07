@@ -21,11 +21,11 @@ describe('friends endpoint handler', () => {
 
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user1Info)
+      body: user1Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user2Info)
+      body: user2Info
     })
 
     const result = await handle({
@@ -45,15 +45,15 @@ describe('friends endpoint handler', () => {
 
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user1Info)
+      body: user1Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user2Info)
+      body: user2Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user3Info)
+      body: user3Info
     })
 
     await handle({
@@ -86,15 +86,15 @@ describe('friends endpoint handler', () => {
 
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user1Info)
+      body: user1Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user2Info)
+      body: user2Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user3Info)
+      body: user3Info
     })
 
     await handle({
@@ -127,19 +127,19 @@ describe('friends endpoint handler', () => {
 
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user1Info)
+      body: user1Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user2Info)
+      body: user2Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user3Info)
+      body: user3Info
     })
     await handleUser({
       method: 'POST',
-      body: JSON.stringify(user4Info)
+      body: user4Info
     })
 
     await handle({

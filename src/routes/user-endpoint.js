@@ -24,9 +24,7 @@ function makeUsersEndpointHandler({ userActions }) {
   }
   async function postUser(httpRequest){
     try {
-      console.log(typeof httpRequest.body)
-      console.log(httpRequest.body)
-      const userInfo = JSON.parse(JSON.stringify(httpRequest.body))
+      const userInfo = await JSON.parse(JSON.stringify(httpRequest.body))
       if (await isSouthOrNorth( 
         userInfo.latitude || userInfo.source.latitude, 
         userInfo.longitude || userInfo.source.longitude

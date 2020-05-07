@@ -14,7 +14,7 @@ describe('users endpoint handler', () => {
   it('creates new users', async () => {
     const result = await handle({
       method: 'POST',
-      body: JSON.stringify(makeFakeUser())
+      body: makeFakeUser()
     })
     expect(result.statusCode).toBe(201)
   }) 
@@ -24,7 +24,7 @@ describe('users endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify(userInfo)
+      body: userInfo
     })
 
     const result = await handle({
@@ -40,7 +40,7 @@ describe('users endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify(userInfo)
+      body: userInfo
     })
 
     const updateResponse = await handle({
@@ -62,7 +62,7 @@ describe('users endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify(userInfo)
+      body: userInfo
     })
 
     const deleteResponse = await handle({
