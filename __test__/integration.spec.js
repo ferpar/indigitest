@@ -17,6 +17,12 @@ const user4 = makeUser(userInfo4)
 const user5 = makeUser(userInfo5)
 
 describe('db-adapter for node-postgres(pg)', () => {
+  afterAll( async () => {
+    //clean up the mess
+    await userDb.remove(user1.getId())
+    await userDb.remove(user2.getId())
+    await userDb.remove(user3.getId())
+  })
   it('inserts users correctly', async () => {
     const res1 = await userDb.insert(user1)
     const res2 = await userDb.insert(user2)
@@ -65,5 +71,4 @@ describe('db-adapter for node-postgres(pg)', () => {
     const res = await userDb.friendCount(user1.getId())
     expect(res).toEqual(1)
   })
-
 })
