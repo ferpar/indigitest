@@ -12,7 +12,7 @@ const user1Modified = makeUser({...userInfo1, username: userInfo1.username + "_M
 const user2 = makeUser(userInfo2)
 const user3 = makeUser(userInfo3)
 
-describe('db-adapter', () => {
+describe('db-adapter for node-postgres(pg)', () => {
   it('inserts users correctly', async () => {
     const res = await userDb.insert(user1)
     expect(res.command).toBe('COMMIT')
@@ -23,6 +23,18 @@ describe('db-adapter', () => {
   })
   it('updates stored users', async () => {
     const res = await userDb.update(user1Modified)
-    await expect(res.username).toBe(user1Modified.getUsername())
+    expect(res.username).toBe(user1Modified.getUsername())
   })
+  xit('removes users', async () => {})
+  it('finds users friends', async () => {
+    const res = await userDb.getFriends(user1.getId())
+    expect(res).toStrictEqual([])
+  })
+  it('saves new friendships', async () => {
+    const res = await userDb.addFriendship(user1.getId(), user2.getId()) 
+    expect(res.command).toBe('COMMIT')
+  })
+  xit('removes friendships', async () => {})
+  xit('returns a friendcount', async () => {})
+
 })

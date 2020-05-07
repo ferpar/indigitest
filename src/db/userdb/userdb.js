@@ -83,8 +83,8 @@ function makeUserDb({ db }) {
       const client = await db.connect()
       let res
       try {
-        const userFriendsQuery = await client.query('SELECT friends FROM friendships WHERE id = $1', [userId])
-        res = userFriendsQuery.rows[0] 
+        const userFriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId])
+        res = userFriendsQuery.rows[0].friends
       } catch (err) {
         console.error('[db-adapter] Error getting list of friends', err)
       } finally {
@@ -98,16 +98,16 @@ function makeUserDb({ db }) {
       try {
         await client.query('BEGIN') 
 
-        const user1FriendsQuery = await client.query('SELECT friends FROM friendships WHERE id = $1', [userId1])
-        const user1Friends = user1FriendsQuery.rows[0]
-        const user2FriendsQuery = await client.query('SELECT friends FROM friendships WHERE id = $1', [userId2])
-        const user2Friends = user2FriendsQuery.rows[0]
+        const user1FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId1])
+        const user1Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
+        const user2FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId2])
+        const user2Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
 
-        await client.query('UPDATE friendships SET friends = $1 WHERE id = $2', [
+        await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
           [...user1Friends, userId2],
           userId1
         ])
-        await client.query('UPDATE friendships SET friends = $1 WHERE id = $2', [
+        await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
           [...user2Friends, userId1],
           userId2
         ])
