@@ -20,7 +20,7 @@ function makeFriendsEndpointHandler({ userActions }) {
   } 
   async function postFriendship(httpRequest){
     try {
-      const { id1, id2 } = JSON.parse(httpRequest.body)
+      const { id1, id2 } = JSON.parse(JSON.stringify(httpRequest.body))
       userActions.addFriendship(id1, id2)
       return {
         headers: {

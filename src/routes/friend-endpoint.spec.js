@@ -30,10 +30,10 @@ describe('friends endpoint handler', () => {
 
     const result = await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user2Info.id
-      })
+      }
     }) 
 
     expect(result.statusCode).toBe(201)
@@ -58,17 +58,17 @@ describe('friends endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user2Info.id
-      })
+      }
     }) 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user3Info.id
-      })
+      }
     }) 
 
     const result = await handle({
@@ -99,17 +99,17 @@ describe('friends endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user2Info.id
-      })
+      }
     }) 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user3Info.id
-      })
+      }
     }) 
 
     const result = await handle({
@@ -144,24 +144,24 @@ describe('friends endpoint handler', () => {
 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user2Info.id
-      })
+      }
     }) 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user3Info.id
-      })
+      }
     }) 
     await handle({
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user4Info.id
-      })
+      }
     }) 
 
     await handle({
