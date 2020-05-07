@@ -24,10 +24,12 @@ function makeUsersEndpointHandler({ userActions }) {
   }
   async function postUser(httpRequest){
     try {
-      const userInfo = JSON.parse(httpRequest.body)
+      console.log(typeof httpRequest.body)
+      console.log(httpRequest.body)
+      const userInfo = JSON.parse(JSON.stringify(httpRequest.body))
       if (await isSouthOrNorth( 
-        userInfo.source.latitude || userInfo.latitude, 
-        userInfo.source.longitude || userInfo.longitude
+        userInfo.latitude || userInfo.source.latitude, 
+        userInfo.longitude || userInfo.source.longitude
       ) === "S") {
         await processSouthern() 
       } else {
