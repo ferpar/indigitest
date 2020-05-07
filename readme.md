@@ -56,10 +56,10 @@ Note: The id must be supplied as well. This is something that would easily be fi
 ```
 {
 	"id": "ck9vik2sw0000cytlchrg5kik",
-  "username": "Lola.Perez",
-  "email": "Cale28@hotmail.cm",
-  "password": "lFgE9Cus7maKtpr",
-  "longitude": "27.3772", 
+  	"username": "Lola.Perez",
+  	"email": "Cale28@hotmail.cm",
+  	"password": "lFgE9Cus7maKtpr",
+  	"longitude": "27.3772", 
 	"latitude": "81.1052",
 	"language": "es"
 }
