@@ -81,7 +81,17 @@ function makeUserDb({ db }) {
         
         const friends = await this.getFriends(userId)
         for (friendIndex in friends) {
-          await this.removeFriendship(userId, friends[friendIndex])
+          //await this.removeFriendship(userId, friends[friendIndex])
+          const userFriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [friends[friendIndex]])
+          const userFriends = JSON.parse(JSON.stringify(userFriendsQuery.rows[0].friends))
+          const userIdIndex = userFriends.findIndex( elem => elem === userId)
+          await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
+            [
+              ...userFriends.slice(0, userIdIndex), 
+              ...userFriends.slice(userIdIndex + 1)
+            ],
+            friends[friendIndex]
+          ])
         }
         await client.query('DELETE FROM friendships WHERE user_id = $1', [userId])
 
@@ -118,7 +128,7 @@ function makeUserDb({ db }) {
         const user1FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId1])
         const user1Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
         const user2FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId2])
-        const user2Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
+        const user2Friends = JSON.parse(JSON.stringify(user2FriendsQuery.rows[0].friends))
 
         await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
           [...user1Friends, userId2],
@@ -148,7 +158,7 @@ function makeUserDb({ db }) {
         const user1FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId1])
         const user1Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
         const user2FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId2])
-        const user2Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
+        const user2Friends = JSON.parse(JSON.stringify(user2FriendsQuery.rows[0].friends))
 
         const userId1Index = user2Friends.findIndex( elem => elem === userId1)
         const userId2Index = user1Friends.findIndex( elem => elem === userId2)

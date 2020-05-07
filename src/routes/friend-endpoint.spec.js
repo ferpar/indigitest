@@ -166,10 +166,10 @@ describe('friends endpoint handler', () => {
 
     await handle({
       method: 'DELETE',
-      body: JSON.stringify({
+      body: {
         id1: user1Info.id,
         id2: user3Info.id
-      })
+      }
     })
 
     const result = await handle({

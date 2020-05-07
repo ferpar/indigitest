@@ -80,7 +80,7 @@ function makeFriendsEndpointHandler({ userActions }) {
   }
   async function deleteFriendship(httpRequest){
     try {
-      const { id1, id2 } = JSON.parse(httpRequest.body)
+      const { id1, id2 } = JSON.parse(JSON.stringify(httpRequest.body))
       await userActions.removeFriendship(id1, id2)
       return {
         headers: {
