@@ -1,22 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const adaptRequest = require('./helpers/adaptRequest')
+
 /// use actual endpointhandlers initializes with postgres db
 const handleUserRequest = require('./controllers/user-endpoint')
 const handleFriendRequest = require('./controllers/friend-endpoint')
 // const { handleUserRequest, handleFriendRequest } = require('./controllers')
 /////
-const adaptRequest = require('./helpers/adaptRequest')
-const dbtest = require('./db')
 
 const server = express()
 server.use(bodyParser.json())
-
-dbtest.query('SELECT * FROM users2', (err, res) => {
-  if (err) {
-    console.error('error reading users table', err)
-  }
-  console.log(res.rows[0])
-} )
 
 function usersController (req, res) {
   console.log('httpRequest: ' + req.method + ' ' + req.path  )
