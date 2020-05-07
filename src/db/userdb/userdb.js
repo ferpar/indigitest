@@ -37,7 +37,7 @@ function makeUserDb({ db }) {
         console.error('[db-adapter] Error saving user', err)
         throw new Error(err.message)
       } finally {
-        client.release()
+        await client.release()
         return response
       }
       
@@ -54,7 +54,7 @@ function makeUserDb({ db }) {
       } catch (err) {
         console.error('[db-adapter] Error finding user by id', err)
       } finally {
-        client.release() 
+        await client.release() 
       }
     },
     update: async user => {
@@ -74,11 +74,33 @@ function makeUserDb({ db }) {
       } catch (err) {
         console.error('[db-adapter] Error updating user', err)
       } finally {
-        client.release()
+        await client.release()
         return res.rows[0]
       }
     },
-    remove: async () => {},
+    remove: async function(userId){
+      const client = await db.connect()
+      let res
+      try {
+        await client.query('BEGIN')
+        
+        const friends = await this.getFriends(userId)
+        for (friendIndex in friends) {
+          await this.removeFriendship(userId, friends[friendIndex])
+        }
+        await client.query('DELETE FROM friendships WHERE user_id = $1', [userId])
+
+        await client.query('DELETE FROM users WHERE id = $1', [userId])
+
+        res = await client.query('COMMIT')
+      } catch(err) {
+        console.error('[db-adapter] Error removing user', err) 
+        res = await client.query('ROLLBACK')
+      } finally {
+        await client.release()
+        return res
+      }
+    },
     getFriends: async userId => {
       const client = await db.connect()
       let res
@@ -88,7 +110,7 @@ function makeUserDb({ db }) {
       } catch (err) {
         console.error('[db-adapter] Error getting list of friends', err)
       } finally {
-        client.release() 
+        await client.release() 
         return res
       }
     },
@@ -118,12 +140,63 @@ function makeUserDb({ db }) {
         res = await client.query('ROLLBACK')
         console.error('[db-adapter] Error adding friends', err)
       } finally {
-        client.release()
+        await client.release()
         return res
       }
     },
-    removeFriendship: async () => {},
-    friendCount: async () => {}
+    removeFriendship: async (userId1, userId2) => {
+      const client = await db.connect()
+      let res
+      try {
+        await client.query('BEGIN') 
+
+        const user1FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId1])
+        const user1Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
+        const user2FriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId2])
+        const user2Friends = JSON.parse(JSON.stringify(user1FriendsQuery.rows[0].friends))
+
+        const userId1Index = user2Friends.findIndex( elem => elem === userId1)
+        const userId2Index = user1Friends.findIndex( elem => elem === userId2)
+
+        await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
+          [
+            ...user1Friends.slice(0, userId2Index), 
+            ...user1Friends.slice(userId2Index + 1)
+          ],
+          userId1
+        ])
+        await client.query('UPDATE friendships SET friends = $1 WHERE user_id = $2', [
+          [
+            ...user2Friends.slice(0, userId1Index), 
+            ...user2Friends.slice(userId1Index + 1)
+          ],
+          userId2
+        ])
+        
+        res = await client.query('COMMIT')
+
+      } catch (err) {
+        res = await client.query('ROLLBACK')
+        console.error('[db-adapter] Error adding friends', err)
+      } finally {
+        await client.release()
+        return res
+      }
+    
+    },
+    friendCount: async userId => {
+      const client = await db.connect()
+      let res
+      try {
+        const userFriendsQuery = await client.query('SELECT friends FROM friendships WHERE user_id = $1', [userId])
+        res = userFriendsQuery.rows[0].friends.length
+      } catch (err) {
+        console.error('[db-adapter] Error getting list of friends', err)
+      } finally {
+        await client.release() 
+        return res
+      }
+    }
   })
 }
 
