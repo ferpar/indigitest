@@ -3,9 +3,9 @@ const bodyParser = require('body-parser')
 const adaptRequest = require('./helpers/adaptRequest')
 
 /// use actual endpointhandlers initializes with postgres db
-const handleUserRequest = require('./controllers/user-endpoint')
-const handleFriendRequest = require('./controllers/friend-endpoint')
-// const { handleUserRequest, handleFriendRequest } = require('./controllers')
+const handleUserRequest = require('./routes/user-endpoint')
+const handleFriendRequest = require('./routes/friend-endpoint')
+// const { handleUserRequest, handleFriendRequest } = require('./routes')
 /////
 
 const server = express()
