@@ -13,6 +13,10 @@ server.get('/user/:id', usersController)
 server.all('/friend', friendsController)
 server.get('/friend/:type/:id', friendsController)
 
+//server.get('/', (req, res) => {
+//  res.status(200).send('OK')
+//})
+
 function usersController (req, res) {
   console.log('httpRequest: ' + req.method + ' ' + req.path  )
   const httpRequest = adaptRequest(req)

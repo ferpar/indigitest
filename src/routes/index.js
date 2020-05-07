@@ -5,10 +5,10 @@ const makeFriendsEndpointHandler = require('./friend-endpoint')
 
 const userActions = makeUserActions({ userDb })
 
-const usersEndpointHandler = makeUsersEndpointHandler({ userActions })
-const friendsEndpointhandler = makeFriendsEndpointHandler({ userActions })
+const handleUserRequest = makeUsersEndpointHandler({ userActions })
+const handleFriendRequest = makeFriendsEndpointHandler({ userActions })
 
 module.exports = {
-  handleUserRequest: () => handleUserRequest,
-  handleFriendRequest: () => handleFriendRequest
+  handleUserRequest: async () => await handleUserRequest,
+  handleFriendRequest: async () => await handleFriendRequest
 }
