@@ -2,7 +2,15 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const adaptRequest = require('./helpers/adaptRequest')
 
-const { handleUserRequest, handleFriendRequest } = require('./routes/index')
+//const { handleUserRequest, handleFriendRequest } = require('./routes/index')
+const makeUsersEndpointHandler = require('./routes/user-endpoint.js')
+const makeFriendsEndpointHandler = require('./routes/friend-endpoint.js')
+const makeUserActions = require('./controllers/user-actions')
+const userDb = require('./db/userdb/index')
+
+const userActions = makeUserActions({ userDb })
+const handleUserRequest = makeUsersEndpointHandler({ userActions })
+const handleFriendRequest = makeFriendsEndpointHandler({ userActions })
 
 const server = express()
 server.use(bodyParser.json())
@@ -12,10 +20,6 @@ server.get('/user/:id', usersController)
 
 server.all('/friend', friendsController)
 server.get('/friend/:type/:id', friendsController)
-
-//server.get('/', (req, res) => {
-//  res.status(200).send('OK')
-//})
 
 function usersController (req, res) {
   console.log('httpRequest: ' + req.method + ' ' + req.path  )
