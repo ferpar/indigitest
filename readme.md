@@ -116,7 +116,7 @@ Two tables are being used to keep track of the users and friendships independent
 
 ### project structure
 
-  The application was built following the clean architecture principles. At the core we have the user entity, its use cases are implemented via the controllers at ./src/controllers/user-actions which coordinates both inputs from the endpoints (./src/routes folder) and the database via the db-adater (at ./src/db/userdb.
+  The application was built following the clean architecture principles. At the core we have the user entity, its use cases are implemented via the controllers (./src/controllers/user-actions) which coordinates both inputs from the endpoints (./src/routes folder) and the database via the db-adater (./src/db/userdb).
 
   To keep the dependecies from the core outwards, less abstract dependencies are injected into the more abstract ones at build time. This architecture made it posible to use TDD right from the start, using a stub for the database, and not implementing the database and server until the core functionality was very advanced.
 
