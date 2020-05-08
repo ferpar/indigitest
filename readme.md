@@ -1,18 +1,6 @@
 # Indigitall tech proof
 ---
 
-### things I would ve done given the time:
-
-- make sure no clients are leaked from the database pool
-- improve return values of several endpoints (give more feednback/information about each operation)
-- improve error handling, making the API more robust
-- add descriptions to the methods in each module
-- dockerize both server and database via docker-compose
-- configure via environment variables (dotenv)
-- refactor the tests for the database adapter
-- encrypt password before storage
-- fix the use of JSON.parse(JSON.stringify()) to format input/output
-
 ## Installation
 
   To get this API to work you'll need:
@@ -133,6 +121,19 @@ Two tables are being used to keep track of the users and friendships independent
   To keep the dependecies from the core outwards, less abstract dependencies are injected into the more abstract ones at build time. This architecture made it posible to use TDD right from the start, using a stub for the database, and not implementing the database and server until the core functionality was very advanced.
 
 Note: a test was also used when creating the database adaptes, (at ./__test__/integration.spec.js. It cleans up its own mess, but maybe consider turning it off if you don't want to risk polluting the database when things fail.
+
+
+### things I would ve done given the time:
+
+- make sure no clients are leaked from the database pool
+- improve return values of several endpoints (give more feednback/information about each operation)
+- improve error handling, making the API more robust
+- add descriptions to the methods in each module
+- dockerize both server and database via docker-compose
+- configure via environment variables (dotenv)
+- refactor the tests for the database adapter
+- encrypt password before storage
+- fix the use of JSON.parse(JSON.stringify()) to format input/output
 
 
 Well, that's it for now, I hope this helps understand the project. Have a good day!
