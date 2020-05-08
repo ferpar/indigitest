@@ -95,7 +95,7 @@ Similarly to the GET route, it takes the user id as a path parameter.
 }
 ```
 
-### database
+### Database
 
 Two tables are being used to keep track of the users and friendships independently.
 
@@ -114,7 +114,7 @@ Two tables are being used to keep track of the users and friendships independent
   user_id VARCHAR(50) PRIMARY KEY,
   friends VARCHAR(50)[]
 
-### project structure
+### Project structure
 
   The application was built following the clean architecture principles. At the core we have the user entity, its use cases are implemented via the controllers (./src/controllers/user-actions) which coordinates both inputs from the endpoints (./src/routes folder) and the database via the db-adater (./src/db/userdb).
 
