@@ -5,10 +5,10 @@ const adaptRequest = require('./helpers/adaptRequest')
 //const { handleUserRequest, handleFriendRequest } = require('./routes/index')
 const makeUsersEndpointHandler = require('./controllers/user-endpoint.js')
 const makeFriendsEndpointHandler = require('./controllers/friend-endpoint.js')
-const makeUserActions = require('./domain/user-service/user-actions')
-const userDb = require('./db/userdb/index')
+//const makeUserActions = require('./domain/user-service/user-actions')
+//const userDb = require('./db/userdb/index')
 
-const userActions = makeUserActions({ userDb })
+const userActions = require('./domain/user-service');
 const handleUserRequest = makeUsersEndpointHandler({ userActions })
 const handleFriendRequest = makeFriendsEndpointHandler({ userActions })
 
