@@ -1,5 +1,5 @@
 const faker = require('faker')
-const Id = require('../../src/Id')
+const Id = require('../../src/helpers/Id')
 const { languages } = require('../../src/constants.json')
 
 //second parameter hemisphere: 

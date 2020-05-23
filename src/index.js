@@ -3,8 +3,8 @@ const bodyParser = require('body-parser')
 const adaptRequest = require('./helpers/adaptRequest')
 
 //const { handleUserRequest, handleFriendRequest } = require('./routes/index')
-const makeUsersEndpointHandler = require('./routes/user-endpoint.js')
-const makeFriendsEndpointHandler = require('./routes/friend-endpoint.js')
+const makeUsersEndpointHandler = require('./controllers/user-endpoint.js')
+const makeFriendsEndpointHandler = require('./controllers/friend-endpoint.js')
 const makeUserActions = require('./services/user-actions')
 const userDb = require('./db/userdb/index')
 
