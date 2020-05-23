@@ -1,4 +1,4 @@
-const makeUser = require('../../src/domain/user')
+const makeUser = require('../../src/domain/models/user')
 function makeUserDb () {
   const userMap = new Map()
   const friendshipMap = new Map()
