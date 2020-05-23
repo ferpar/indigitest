@@ -1,4 +1,4 @@
-const makeUser = require('../src/user')
+const makeUser = require('../../src/user')
 function makeUserDb () {
   const userMap = new Map()
   const friendshipMap = new Map()
