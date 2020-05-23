@@ -1,5 +1,5 @@
 const makeFakeUser = require('./fixtures/user')
-const makeUser = require('../src/user')
+const makeUser = require('../src/domain/user')
 const db = require('../src/db')
 const makeUserDb = require('../src/db/userdb/userdb')
 const userDb = makeUserDb({ db })

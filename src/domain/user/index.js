@@ -1,5 +1,5 @@
 const sanitizeHtml = require('sanitize-html')
-const Id = require('../helpers/Id')
+const Id = require('../../helpers/Id')
 const buildMakeUser = require('./user')
 
 function sanitize (text) {

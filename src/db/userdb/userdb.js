@@ -1,4 +1,4 @@
-const makeUser = require('../../user')
+const makeUser = require('../../domain/user')
 function makeUserDb({ db }) {
   return Object.freeze({
     insert: async function(user) {
