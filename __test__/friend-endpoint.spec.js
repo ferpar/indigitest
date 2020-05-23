@@ -1,8 +1,8 @@
-const makeFakeUser = require('../../__test__/fixtures/user')
-const makeUserDb = require('../../__test__/userdb-stub')
-const makeUserActions = require('../services/user-actions')
-const makeUsersEndpointHandler = require('./user-endpoint')
-const makeFriendsEndpointHandler = require('./friend-endpoint')
+const makeFakeUser = require('./fixtures/user')
+const makeUserDb = require('./userdb-stub')
+const makeUserActions = require('../src/services/user-actions')
+const makeUsersEndpointHandler = require('../src/controllers/user-endpoint')
+const makeFriendsEndpointHandler = require('../src/controllers/friend-endpoint')
 
 describe('friends endpoint handler', () => {
   let handle

@@ -1,5 +1,5 @@
-const makeFakeUser = require('../../__test__/fixtures/user')
-const makeUser = require('./index')
+const makeFakeUser = require('./fixtures/user')
+const makeUser = require('../src/user/index')
 
 describe('social network user', () => {
   it('has an invalid id', () => {
