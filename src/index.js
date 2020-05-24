@@ -2,8 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const adaptRequest = require('./helpers/adaptRequest')
 
-const handleUserRequest = require('./controllers').handleUserRequest;
-const handleFriendRequest = require('./controllers').handleFriendRequest;
+const { handleUserRequest, handleFriendRequest } = require('./controllers')
 
 const server = express()
 server.use(bodyParser.json())
