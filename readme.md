@@ -134,8 +134,3 @@ Two tables are being used to keep track of the users and friendships independent
 - encrypt password before storage
 - fix the use of JSON.parse(JSON.stringify()) to format input/output
 
-
-Well, that's it for now, I hope this helps understand the project. Have a good day!
-
-
-Made by Fernando Pérez de Ayala
