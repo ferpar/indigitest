@@ -116,11 +116,8 @@ Two tables are being used to keep track of the users and friendships independent
 
 ### Project structure
 
-  The application was built following the clean architecture principles. At the core we have the user entity, its use cases are implemented via the controllers (./src/controllers/user-actions) which coordinates both inputs from the endpoints (./src/routes folder) and the database via the db-adater (./src/db/userdb).
 
-  To keep the dependecies from the core outwards, less abstract dependencies are injected into the more abstract ones at build time. This architecture made it posible to use TDD right from the start, using a stub for the database, and not implementing the database and server until the core functionality was very advanced.
-
-Note: a test was also used when creating the database adaptes, (at ./__test__/integration.spec.js. It cleans up its own mess, but maybe consider turning it off if you don't want to risk polluting the database when things fail.
+![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/dependencygraph.svg "Dependencies")
 
 
 ### things I would ve done given the time:
