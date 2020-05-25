@@ -1,8 +1,9 @@
+const makeUser = require('../models/user')
 function makeUserActions ({ userDb }) {
   return {
     create: async user => {
-      
-      await userDb.insert(user) 
+      const userObject = await makeUser(user)
+      await userDb.insert(userObject) 
         .catch (err => {
           if(err.message === 'Id taken: User already exists'){
             throw new Error('Conflict: User already created')
@@ -23,7 +24,8 @@ function makeUserActions ({ userDb }) {
       }
     },
     update: async user => {
-      await userDb.update(user)
+      const userObject = await makeUser(user)
+      await userDb.update(userObject)
         .catch(err => {
           if(err.message === 'No such user'){
             throw new Error('User not found')
