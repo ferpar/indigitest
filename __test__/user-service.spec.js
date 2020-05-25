@@ -1,7 +1,6 @@
-const makeFakeUser = require('../../__test__/fixtures/user')
-const makeUser = require('../user')
-const makeUserDb = require('../../__test__/userdb-stub')
-const makeUserActions = require('./user-actions')
+const makeFakeUser = require('./fixtures/user')
+const makeUserDb = require('./stubs/userdb-stub')
+const makeUserActions = require('../src/domain/user-service/user-actions')
 
 describe('user actions', () => {
   let userActions
@@ -11,11 +10,10 @@ describe('user actions', () => {
   })
   it('stores users and finds them by id', async () => {
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
 
-    await userActions.create(user)
+    await userActions.create(userInfo)
 
-    const retrievedUser = await userActions.getById(user.getId())
+    const retrievedUser = await userActions.getById(userInfo.id)
 
     const retrievedUserInfo = {
       id: retrievedUser.getId(),
@@ -29,25 +27,23 @@ describe('user actions', () => {
   })
   it('throws an error when the user already exists', async () => {
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
   
-    await userActions.create(user)
+    await userActions.create(userInfo)
 
-    await expect(userActions.create(user)).rejects.toThrow()
+    await expect(userActions.create(userInfo)).rejects.toThrow()
   })
   it('updates stored users', async () => {
     expect.assertions(2)
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
 
-    await userActions.create(user)
+    await userActions.create(userInfo)
 
     const changedUserInfo = {...userInfo, username: "PepeTest"}
-    const changedUser = makeUser(changedUserInfo)
+    const changedUser = changedUserInfo
 
     await userActions.update(changedUser)
 
-    const retrievedUser = await userActions.getById(user.getId())
+    const retrievedUser = await userActions.getById(userInfo.id)
 
     const retrievedUserInfo = {
       id: retrievedUser.getId(),
@@ -62,28 +58,25 @@ describe('user actions', () => {
   })
   it('throws an error when attempting to update an unexisting user', async () => {
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
   
     const changedUserInfo = {...userInfo, username: "PepeTest"}
-    const changedUser = makeUser(changedUserInfo)
+    const changedUser = changedUserInfo
 
     await expect(userActions.update(changedUser)).rejects.toThrow('User not found')
   })
   it('removes a user', async () => {
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
 
-    await userActions.create(user)
+    await userActions.create(userInfo)
     
-    await userActions.remove(user.getId())
+    await userActions.remove(userInfo.id)
 
     await expect(userActions.getById(userInfo.id)).rejects.toThrow('User not found')
   })
   it('creates a new entry at the friendship adjacency list alongside every new user', async () => {
     const userInfo = makeFakeUser()
-    const user = makeUser(userInfo)
 
-    await userActions.create(user)
+    await userActions.create(userInfo)
     const friendships = await userActions.getFriends(userInfo.id)
 
     expect(friendships).toEqual([])
@@ -91,12 +84,10 @@ describe('user actions', () => {
   it('registers a new friendship for both users', async () => {
     expect.assertions(2)
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
    
     await userActions.addFriendship(user1Info.id, user2Info.id) 
 
@@ -107,12 +98,10 @@ describe('user actions', () => {
   it('make sure the same friendship cannot be stored twice', async () => {
     expect.assertions(3)
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
    
     await userActions.addFriendship(user1Info.id, user2Info.id) 
     expect(await userActions.getFriends(user1Info.id)).toContain(user2Info.id)
@@ -123,24 +112,20 @@ describe('user actions', () => {
   })
   it('throws an error when you dont introduce the id of both friends', async () => {
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
    
     await expect(userActions.addFriendship(user1Info.id)).rejects.toThrow('Both ids are needed for establishing a friendship')
   })
   it('removes a friendship on both ends', async () => {
     expect.assertions(4)
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
    
     await userActions.addFriendship(user1Info.id, user2Info.id) 
 
@@ -154,15 +139,12 @@ describe('user actions', () => {
   })
   it('correctly returns the friend count', async () => {
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
     const user3Info = makeFakeUser()
-    const user3 = makeUser(user3Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
-    await userActions.create(user3)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
+    await userActions.create(user3Info)
    
     await userActions.addFriendship(user1Info.id, user2Info.id) 
     await userActions.addFriendship(user1Info.id, user3Info.id) 
@@ -173,15 +155,12 @@ describe('user actions', () => {
   it('deletes all friendships when removing a user', async () => {
     expect.assertions(3)
     const user1Info = makeFakeUser()
-    const user1 = makeUser(user1Info)
     const user2Info = makeFakeUser()
-    const user2 = makeUser(user2Info)
     const user3Info = makeFakeUser()
-    const user3 = makeUser(user3Info)
 
-    await userActions.create(user1)
-    await userActions.create(user2)
-    await userActions.create(user3)
+    await userActions.create(user1Info)
+    await userActions.create(user2Info)
+    await userActions.create(user3Info)
    
     await userActions.addFriendship(user1Info.id, user2Info.id) 
     await userActions.addFriendship(user1Info.id, user3Info.id) 

@@ -1,6 +1,4 @@
-const makeHttpError = require('../helpers/httpError')
-const makeUser = require('../user')
-const unpackUser = require('../helpers/unpack')
+const makeHttpError = require('./aux/httpError')
 
 function makeFriendsEndpointHandler({ userActions }) {
   return function handle (httpRequest) {
