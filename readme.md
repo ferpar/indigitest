@@ -1,6 +1,7 @@
 # Indigitall tech proof
 ---
 
+
 ## Installation
 
   To get this API to work you'll need:
@@ -20,7 +21,12 @@
 ```
   That should do it. Keep in mind the server has a hardcoded port of 9090 => so expect it at http://localhost:9090 if you don't mess around with the index.js.
 
-##Description
+## Description
+
+### Project structure
+
+![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/dependencygraph.svg "Dependencies")
+
 
 ### API
 
@@ -114,10 +120,6 @@ Two tables are being used to keep track of the users and friendships independent
   user_id VARCHAR(50) PRIMARY KEY,
   friends VARCHAR(50)[]
 
-### Project structure
-
-
-![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/dependencygraph.svg "Dependencies")
 
 
 ### things I would ve done given the time:
