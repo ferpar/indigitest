@@ -1,4 +1,4 @@
-const makeUser = require('../models/user')
+const makeUser = require('../user-model')
 function makeUserActions ({ userDb }) {
   return {
     create: async user => {
