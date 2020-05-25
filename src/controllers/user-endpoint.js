@@ -1,6 +1,6 @@
-const makeHttpError = require('../helpers/httpError')
-const isSouthOrNorth = require('../helpers/isSouthOrNorth')
-const processSouthern = require('../helpers/processSouthern')
+const makeHttpError = require('./aux/httpError')
+const isSouthOrNorth = require('./aux/isSouthOrNorth')
+const processSouthern = require('./aux/processSouthern')
 
 function makeUsersEndpointHandler({ userActions }) {
   return function handle (httpRequest) {

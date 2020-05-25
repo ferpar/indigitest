@@ -1,4 +1,4 @@
-const makeHttpError = require('../helpers/httpError')
+const makeHttpError = require('./aux/httpError')
 
 function makeFriendsEndpointHandler({ userActions }) {
   return function handle (httpRequest) {
