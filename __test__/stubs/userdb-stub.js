@@ -1,4 +1,3 @@
-const makeUser = require('../../src/domain/models/user')
 function makeUserDb () {
   const userMap = new Map()
   const friendshipMap = new Map()
@@ -23,7 +22,7 @@ function makeUserDb () {
          throw new Error('No such user')
       }
       const userInfo = userMap.get(userId)
-      return makeUser(userInfo)
+      return userInfo
     },
     update: async user => {
       if (!userMap.has(user.getId())){

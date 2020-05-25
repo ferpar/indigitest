@@ -14,7 +14,7 @@ function makeUserActions ({ userDb }) {
     },
     getById: async userId => { 
       try {
-        return await userDb.findById(userId) 
+        return makeUser(await userDb.findById(userId))
       } catch (err) {
         if(err.message === 'No such user'){
           throw new Error('User not found')

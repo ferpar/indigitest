@@ -37,7 +37,7 @@ describe('db-adapter for node-postgres(pg)', () => {
   })
   it('finds users by Id', async () => {
     const res = await userDb.findById(userInfo1.id)
-    expect(res.getId()).toEqual(user1.getId()) 
+    expect(res.id).toEqual(user1.getId()) 
   })
   it('updates stored users', async () => {
     const res = await userDb.update(user1Modified)
