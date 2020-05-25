@@ -1,5 +1,4 @@
 const makeHttpError = require('../helpers/httpError')
-const unpackUser = require('../helpers/unpack')
 const isSouthOrNorth = require('../helpers/isSouthOrNorth')
 const processSouthern = require('../helpers/processSouthern')
 
@@ -62,7 +61,7 @@ function makeUsersEndpointHandler({ userActions }) {
           'Content-Type': 'application/json'
         },
         statusCode: 201,
-        data: unpackUser(result)
+        data: result.getUser()
       }
     } catch (err) {
       if (err.message === 'User not found') {
