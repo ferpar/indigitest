@@ -103,23 +103,13 @@ Similarly to the GET route, it takes the user id as a path parameter.
 
 ### Database
 
-Two tables are being used to keep track of the users and friendships independently.
+The universe of discourse for this test produces the following ORM Conceptual Schema.
 
-  - users Table:
+![ORM](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/ORMIndigitech.PNG "Conceptual Schema")
 
-  id VARCHAR(50) PRIMARY KEY,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  password VARCHAR(50) NOT NULL,
-  email VARCHAR(355) UNIQUE NOT NULL,
-  longitude FLOAT8,
-  latitude FLOAT8,
-  language VARCHAR(50)
+Given the many to many relationship between users who befriend each other two tables are required.
 
-  - friendships Table:
-
-  user_id VARCHAR(50) PRIMARY KEY,
-  friends VARCHAR(50)[]
-
+![SQLSchema](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/SchemaIndigitech.PNG "Tables")
 
 
 ### things I would ve done given the time:
