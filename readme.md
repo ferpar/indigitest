@@ -103,13 +103,51 @@ Similarly to the GET route, it takes the user id as a path parameter.
 
 ### Database
 
+#### ORM Conceptual Schema
 The universe of discourse for this test produces the following ORM Conceptual Schema.
 
 ![ORM](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/ORMIndigitech.PNG "Conceptual Schema")
-
+#### Relational Schema
 Given the many to many relationship between users who befriend each other two tables are required.
 
 ![SQLSchema](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/SchemaIndigitech.PNG "Tables")
+
+#### RDMS Instructions
+```
+--create schema/database within psql
+CREATE DATABASE indigitest;
+
+--connect to the database schema
+\c indigitest
+
+--create tables and trigger
+CREATE TABLE Users ( 
+	userId VARCHAR(25) NOT NULL PRIMARY KEY,
+	email VARCHAR(30) NOT NULL,
+	password VARCHAR(64) NOT NULL,
+	username VARCHAR(30) NOT NULL,
+	browserLang VARCHAR(10),
+	latitude FLOAT8,
+	longitude FLOAT8);
+
+CREATE TABLE friendships(
+	befriender VARCHAR(25) NOT NULL references Users on delete cascade,
+	userId VARCHAR(25) NOT NULL references Users on delete cascade,
+	CONSTRAINT irreflexive check (befriender <> userId),
+	PRIMARY KEY (befriender, userId));
+
+CREATE FUNCTION find_sym_trig() RETURNS trigger AS $find_sym_trig$
+	BEGIN
+		IF ( EXISTS(SELECT * FROM friendships WHERE befriender = NEW.userid AND userid = NEW.befriender) ) THEN
+			RAISE EXCEPTION 'friendship already stored as symmetric';
+		END IF;
+		RETURN NEW;
+	END;
+$find_sym_trig$ LANGUAGE plpgsql;
+
+CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON friendships
+	FOR EACH ROW EXECUTE PROCEDURE find_sym_trig();
+```
 
 
 ### things I would ve done given the time:
