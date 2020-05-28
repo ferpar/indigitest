@@ -16,6 +16,24 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: find_sym_trig(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.find_sym_trig() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+ BEGIN
+  IF ( EXISTS(SELECT * FROM friendships WHERE befriender = NEW.userid AND userid = NEW.befriender) ) THEN
+   RAISE EXCEPTION 'friendship already stored as symmetric';
+  END IF;
+  RETURN NEW;
+ END;
+$$;
+
+
+ALTER FUNCTION public.find_sym_trig() OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -25,8 +43,9 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.friendships (
-    user_id character varying(50) NOT NULL,
-    friends character varying(50)[]
+    befriender character varying(25) NOT NULL,
+    userid character varying(25) NOT NULL,
+    CONSTRAINT irreflexive CHECK (((befriender)::text <> (userid)::text))
 );
 
 
@@ -37,13 +56,13 @@ ALTER TABLE public.friendships OWNER TO postgres;
 --
 
 CREATE TABLE public.users (
-    id character varying(50) NOT NULL,
-    username character varying(50) NOT NULL,
-    password character varying(50) NOT NULL,
-    email character varying(355) NOT NULL,
-    longitude double precision,
+    userid character varying(25) NOT NULL,
+    email character varying(30) NOT NULL,
+    password character varying(64) NOT NULL,
+    username character varying(30) NOT NULL,
+    browserlang character varying(10),
     latitude double precision,
-    language character varying(50)
+    longitude double precision
 );
 
 
@@ -53,7 +72,7 @@ ALTER TABLE public.users OWNER TO postgres;
 -- Data for Name: friendships; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.friendships (user_id, friends) FROM stdin;
+COPY public.friendships (befriender, userid) FROM stdin;
 \.
 
 
@@ -61,7 +80,7 @@ COPY public.friendships (user_id, friends) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, username, password, email, longitude, latitude, language) FROM stdin;
+COPY public.users (userid, email, password, username, browserlang, latitude, longitude) FROM stdin;
 \.
 
 
@@ -70,15 +89,7 @@ COPY public.users (id, username, password, email, longitude, latitude, language)
 --
 
 ALTER TABLE ONLY public.friendships
-    ADD CONSTRAINT friendships_pkey PRIMARY KEY (user_id);
-
-
---
--- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_email_key UNIQUE (email);
+    ADD CONSTRAINT friendships_pkey PRIMARY KEY (befriender, userid);
 
 
 --
@@ -86,15 +97,30 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
 
 
 --
--- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: friendships enforce_asymmetry; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_username_key UNIQUE (username);
+CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON public.friendships FOR EACH ROW EXECUTE FUNCTION public.find_sym_trig();
+
+
+--
+-- Name: friendships friendships_befriender_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.friendships
+    ADD CONSTRAINT friendships_befriender_fkey FOREIGN KEY (befriender) REFERENCES public.users(userid) ON DELETE CASCADE;
+
+
+--
+-- Name: friendships friendships_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.friendships
+    ADD CONSTRAINT friendships_userid_fkey FOREIGN KEY (userid) REFERENCES public.users(userid) ON DELETE CASCADE;
 
 
 --
