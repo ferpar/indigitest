@@ -113,6 +113,10 @@ Given the many to many relationship between users who befriend each other two ta
 ![SQLSchema](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/SchemaIndigitech.PNG "Tables")
 
 #### RDMS Instructions
+Note how the assymetry condition on the friendship relation is being enforced via:
+	- irreflexive CONSTRAINT @ friendship table declaraion
+	- enforce_Asymmetry TRIGGER
+
 ```
 --create schema/database within psql
 CREATE DATABASE indigitest;
