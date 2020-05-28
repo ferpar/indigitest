@@ -119,8 +119,8 @@ Given the many to many relationship between users who befriend each other two ta
 
 #### RDMS Instructions
 Note how the assymetry condition on the friendship relation is being enforced via:
-	- irreflexive CONSTRAINT @ friendship table declaration
-	- enforce_Asymmetry TRIGGER
+- irreflexive CONSTRAINT @ friendship table declaration
+- enforce_Asymmetry TRIGGER
 
 ```
 --create schema/database within psql
