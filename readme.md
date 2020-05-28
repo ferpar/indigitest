@@ -25,8 +25,13 @@
 
 ### Project structure
 
+Please note how the service "user-actions" does not directly depend on the db-interface. This was done by injecting the db-interface into the service by means of a factory function @ /src/domain/user-service/index.js.
+
 ![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/dependencygraph.svg "Dependencies")
 
+This dependency injection pattern has been followed throughout the application. It allows to work separately on individual components on a test-driven basis (write tests first, then the code to fulfill the test assertions).
+
+This could also have been accomplished using typescript using interfaces instead of dependency injection and factory functions.
 
 ### API
 
