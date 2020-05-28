@@ -111,7 +111,13 @@ Similarly to the GET route, it takes the user id as a path parameter.
 #### ORM Conceptual Schema
 The universe of discourse for this test produces the following ORM Conceptual Schema.
 
+Here, the most complex elementary fact is given by: "User(.id) befriends User(.id)", where the verb befriend was chosen to avoid a symmetric relationship such as "User(.id) is friend of User(.id)". 
+
+
 ![ORM](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/ORMIndigitech.PNG "Conceptual Schema")
+
+The circular symbol attached to the binary roles is an assymetry constraint, meaning if we insert the fact "User1 befriends User2", it will no longer be possible to insert "User2 befriends User1" until the former relationship is removed. It also implies irreflexivity preventing the insertion of facts such as "User1 befriends User1" ( i.e.: in our model, a user may not be his own friend).
+
 #### Relational Schema
 Given the many to many relationship between users who befriend each other two tables are required.
 
