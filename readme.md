@@ -97,7 +97,7 @@ Similarly to the GET route, it takes the user id as a path parameter.
 	"id2": "ck9vik2sw0000cytlchrg5kak"
 }
 ```
--DELETE: Unregisters a friendship given the id of both friends. Takes a similar body input as the POST method.
+- DELETE: Unregisters a friendship given the id of both friends. Takes a similar body input as the POST method.
 
 ```
 {
