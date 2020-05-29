@@ -16,12 +16,6 @@ const user3 = makeUser(userInfo3)
 const user4 = makeUser(userInfo4)
 const user5 = makeUser(userInfo5)
 
-console.log(userInfo1)
-console.log(userInfo2)
-console.log(userInfo3)
-console.log(userInfo4)
-console.log(userInfo5)
-
 describe('db-adapter for node-postgres(pg)', () => {
   afterAll( async () => {
     db.shutdown()
