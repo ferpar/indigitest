@@ -1,6 +1,7 @@
 function buildMakeUser ({ Id, sanitize }) {
   return function makeUser ({
-    id = Id.makeId(),
+    userid = false,
+    id = userid ? userid : Id.makeId(),
     username,
     email,
     password,
