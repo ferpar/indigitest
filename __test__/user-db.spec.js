@@ -19,56 +19,70 @@ const user5 = makeUser(userInfo5)
 describe('db-adapter for node-postgres(pg)', () => {
   afterAll( async () => {
     //clean up the mess
-    await userDb.remove(user1.getId())
-    await userDb.remove(user2.getId())
-    await userDb.remove(user3.getId())
+  //  await userDb.remove(user2.getId())
+  //  await userDb.remove(user3.getId())
+    db.shutdown()
   })
-  it('inserts users correctly', async () => {
-    const res1 = await userDb.insert(user1)
-    const res2 = await userDb.insert(user2)
-    const res3 = await userDb.insert(user3)
-    const res4 = await userDb.insert(user4)
-    const res5 = await userDb.insert(user5)
-    expect(res1.command).toBe('COMMIT')
-    expect(res2.command).toBe('COMMIT')
-    expect(res3.command).toBe('COMMIT')
-    expect(res4.command).toBe('COMMIT')
-    expect(res5.command).toBe('COMMIT')
+  describe('insert, findById and update methods', () => {
+    afterAll( async () => {
+      await userDb.remove(userInfo1.id)
+    })
+    it('inserts users correctly', async () => {
+      const res1 = await userDb.insert(user1)
+      expect(res1.userid).toBe(userInfo1.id)
+    })
+    it('finds users by Id', async () => {
+      const res = await userDb.findById(userInfo1.id)
+      expect(res.userid).toEqual(userInfo1.id) 
+    })
+    it('updates stored users', async () => {
+      const res = await userDb.update(user1Modified)
+      expect(res.username).toBe(user1Modified.getUsername())
+    })
   })
-  it('finds users by Id', async () => {
-    const res = await userDb.findById(userInfo1.id)
-    expect(res.id).toEqual(user1.getId()) 
+  describe('remove method', () => {
+    beforeEach( async () => {
+      await userDb.insert(user5)
+    })
+    it('removes users', async () => {
+      const deleteCount = await userDb.remove(user5.getId())
+      expect(deleteCount > 0).toBe(true)
+    })
   })
-  it('updates stored users', async () => {
-    const res = await userDb.update(user1Modified)
-    expect(res.username).toBe(user1Modified.getUsername())
-  })
-  it('removes users', async () => {
-    const res = await userDb.remove(user5.getId())
-    expect(res.command).toBe('COMMIT')
-  })
-  it('finds users friends', async () => {
-    const res = await userDb.getFriends(user1.getId())
-    expect(res).toStrictEqual([])
-  })
-  it('saves new friendships', async () => {
-    const res1 = await userDb.addFriendship(user1.getId(), user2.getId()) 
-    const res2 = await userDb.addFriendship(user1.getId(), user3.getId())
-    const res3 = await userDb.addFriendship(user1.getId(), user4.getId())
-    expect(res1.command).toBe('COMMIT')
-    expect(res2.command).toBe('COMMIT')
-    expect(res3.command).toBe('COMMIT')
-  })
-  it('removes friendships', async () => {
-    const res1 = await userDb.removeFriendship(user1.getId(), user2.getId())
-    expect(res1.command).toBe('COMMIT')
-  })
-  it('removes old friendships when removing a user', async () => {
-    const res = await userDb.remove(user4.getId()) 
-    expect(res.command).toBe('COMMIT')
-  })
-  it('returns a friendcount', async () => {
-    const res = await userDb.friendCount(user1.getId())
-    expect(res).toEqual(1)
+  describe('friendship methods', () => {
+    beforeAll( async () => {
+      await userDb.insert(user1)
+      await userDb.insert(user2)
+      await userDb.insert(user3)
+      await userDb.insert(user4)
+    })
+    afterAll(async () => {
+      await userDb.remove(user1)
+      await userDb.remove(user2)
+      await userDb.remove(user3)
+    })
+    it('saves new friendships', async () => {
+      const res1 = await userDb.addFriendship(user1.getId(), user2.getId()) 
+      expect(res1).toStrictEqual({befriender: userInfo1.id, userid: userInfo2.id})
+    })
+    it('finds users friends', async () => {
+      await userDb.addFriendship(user1.getId(), user3.getId())
+      await userDb.addFriendship(user4.getId(), user1.getId())
+      const res = await userDb.getFriends(user1.getId())
+      expect(res).toEqual(expect.arrayContaining([{userid: userInfo2.id}, {userid: userInfo3.id}, {userid: userInfo4.id}]))
+    })
+    it('removes friendships', async () => {
+      const deleteCount = await userDb.removeFriendship(user1.getId(), user2.getId())
+      expect(deleteCount > 0).toBe(true)
+    })
+    it('removes old friendships when removing a user', async () => {
+      await userDb.remove(user4.getId()) 
+      const res = userDb.getFriends(user1.getId())
+      expect(res).toEqual(expect.not.arrayContaining([{userid: userInfo4.id}]))
+    })
+    it('returns a friendcount', async () => {
+      const res = await userDb.friendCount(user1.getId())
+      expect(res).toEqual(1)
+    })
   })
 })

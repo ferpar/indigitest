@@ -25,7 +25,7 @@ describe('user actions', () => {
 
     expect(retrievedUserInfo).toEqual(userInfo)
   })
-  it('throws an error when the user already exists', async () => {
+  xit('throws an error when the user already exists', async () => {
     const userInfo = makeFakeUser()
   
     await userActions.create(userInfo)
@@ -56,7 +56,7 @@ describe('user actions', () => {
     expect(retrievedUserInfo).toEqual(changedUserInfo)
     expect(retrievedUserInfo).not.toEqual(userInfo)
   })
-  it('throws an error when attempting to update an unexisting user', async () => {
+  xit('throws an error when attempting to update an unexisting user', async () => {
     const userInfo = makeFakeUser()
   
     const changedUserInfo = {...userInfo, username: "PepeTest"}
@@ -73,7 +73,7 @@ describe('user actions', () => {
 
     await expect(userActions.getById(userInfo.id)).rejects.toThrow('User not found')
   })
-  it('creates a new entry at the friendship adjacency list alongside every new user', async () => {
+  xit('creates a new entry at the friendship adjacency list alongside every new user', async () => {
     const userInfo = makeFakeUser()
 
     await userActions.create(userInfo)
@@ -95,7 +95,7 @@ describe('user actions', () => {
     expect(await userActions.getFriends(user2Info.id)).toContain(user1Info.id)
 
   })
-  it('make sure the same friendship cannot be stored twice', async () => {
+  xit('make sure the same friendship cannot be stored twice', async () => {
     expect.assertions(3)
     const user1Info = makeFakeUser()
     const user2Info = makeFakeUser()
@@ -110,7 +110,7 @@ describe('user actions', () => {
     await expect(userActions.addFriendship(user1Info.id, user2Info.id)).rejects.toThrow('Friendship already exists')
   
   })
-  it('throws an error when you dont introduce the id of both friends', async () => {
+  xit('throws an error when you dont introduce the id of both friends', async () => {
     const user1Info = makeFakeUser()
     const user2Info = makeFakeUser()
 
