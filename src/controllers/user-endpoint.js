@@ -23,39 +23,45 @@ function makeUsersEndpointHandler({ userActions }) {
   async function postUser(httpRequest){
     try {
       const userInfo = httpRequest.body
+      let storedUser
       if (await isSouthOrNorth( 
         userInfo.latitude || userInfo.source.latitude, 
         userInfo.longitude || userInfo.source.longitude
       ) === "S") {
-        await processSouthern() 
+        storedUser = await processSouthern() 
       } else {
-        await userActions.create(userInfo)
+        storedUser = await userActions.create(userInfo)
       }
       return {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: 201
+        statusCode: 201,
+        data: storedUser ? {
+          id: storedUser.getId(),
+          username: storedUser.getUsername()
+        } : false
       }
     } catch (err) {
-      if (err.message === 'Conflict: User already created') {
-        return makeHttpError({
-          error: err.message,
-          statusCode: 409
-        })
-      } else {
-        console.error('[user endpoint handler] Error posting user', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[user endpoint handler] Error posting user', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
   async function getUser(httpRequest){
     try {
       const { id } = httpRequest.pathParams
       const result = await userActions.getById(id)
+
+      if (!result) {
+        return makeHttpError({
+          error: 'User not found',
+          statusCode: 404
+        })
+      }
+
       return {
         headers: {
           'Content-Type': 'application/json'
@@ -64,24 +70,23 @@ function makeUsersEndpointHandler({ userActions }) {
         data: result.getUser()
       }
     } catch (err) {
-      if (err.message === 'User not found') {
-        return makeHttpError({
-          error: err.message,
-          statusCode: 404
-        })
-      } else {
-        console.error('[user endpoint handler] Error getting user', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[user endpoint handler] Error getting user', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
   async function updateUser(httpRequest){
     try{
-      const userInfo = JSON.parse(JSON.stringify(httpRequest.body))
-      await userActions.update(userInfo)  
+      const userInfo = httpRequest.body
+      const result = await userActions.update(userInfo)  
+      if (!result) {
+        return makeHttpError({
+          error: 'User not found',
+          statusCode: 404
+        })
+      }
       return {
         headers: {
           'Content-Type': 'application/json'

@@ -2,47 +2,30 @@ const makeUser = require('../user-model')
 function makeUserActions ({ userDb }) {
   return {
     create: async user => {
-      const userObject = await makeUser(user)
-      await userDb.insert(userObject) 
-        .catch (err => {
-          if(err.message === 'Id taken: User already exists'){
-            throw new Error('Conflict: User already created')
-          } else {
-            console.error('[user-actions] Error creating user', err)
-          }
-        })
+      const userObject = makeUser(user)
+      const storedUserInfo = await userDb.insert(userObject) 
+      return makeUser(storedUserInfo)
     },
     getById: async userId => { 
-      try {
-        return makeUser(await userDb.findById(userId))
-      } catch (err) {
-        if(err.message === 'No such user'){
-          throw new Error('User not found')
-        } else {
-        console.error('[user-actions] Error retrieving user by Id', err) 
-        }
+      const foundUser = await userDb.findById(userId)
+      if (foundUser) {
+        return makeUser(foundUser)
+      } else {
+       return false
       }
     },
     update: async user => {
       const userObject = await makeUser(user)
-      await userDb.update(userObject)
-        .catch(err => {
-          if(err.message === 'No such user'){
-            throw new Error('User not found')
-          } else {
-            console.error('[user-actions] Error updating user', err)
-          }
-        })
+      const updatedUser = await userDb.update(userObject)
+      if (updatedUser) {
+        return makeUser(updatedUser)
+      } else {
+       return false
+      }
+
     },
     remove: async userId => {
-      await userDb.remove(userId)
-        .catch(err => {
-          if(err.message === 'No such user'){
-            throw new Error('User not found')
-          } else {
-            console.error('[user-actions] Error removing user', err)
-          }
-        })
+      return await userDb.remove(userId)
     },
     getFriends: async userId => {
       const friendlist = await userDb.getFriends(userId)
