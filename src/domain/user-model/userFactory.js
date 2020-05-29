@@ -47,7 +47,6 @@ function buildMakeUser ({ Id, sanitize }) {
         id,
         username,
         email,
-        password,
         source: Object.freeze({
           longitude,
           latitude,

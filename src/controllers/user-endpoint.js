@@ -92,6 +92,7 @@ function makeUsersEndpointHandler({ userActions }) {
           'Content-Type': 'application/json'
         },
         statusCode: 200,
+        data: result.getUser()
       }
     } catch (err) {
       console.error('[user endpoint handler] Error posting user', err)
@@ -104,12 +105,13 @@ function makeUsersEndpointHandler({ userActions }) {
   async function removeUser(httpRequest){
     try {
     const { id } = httpRequest.pathParams
-      await userActions.remove(id)
+      const removed = await userActions.remove(id)
       return {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: 200,
+        statusCode: removed ? 200 : 204,
+        data: {removeCount: removed}
       }
     } catch (err) {
       if (err.message === 'User not found'){
