@@ -7,7 +7,7 @@ function buildMakeUser ({ Id, sanitize }) {
     source,
     longitude = source.longitude,
     latitude = source.latitude,
-    language = source.language
+    browserlang = source.browserlang
   }) {
     if (id && !Id.isValidId(id)) {
       throw new Error('User must have a valid id')
@@ -41,7 +41,7 @@ function buildMakeUser ({ Id, sanitize }) {
       getSource: () => Object.freeze({
         longitude,
         latitude,
-        language
+        browserlang
       }),
       getUser: () => Object.freeze({
         id,
@@ -50,7 +50,7 @@ function buildMakeUser ({ Id, sanitize }) {
         source: Object.freeze({
           longitude,
           latitude,
-          language
+          browserlang
         })
       })
     })

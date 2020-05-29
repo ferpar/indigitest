@@ -10,7 +10,7 @@ function makeUserDb () {
         password: user.getPassword(),
         longitude: user.getSource().longitude,
         latitude: user.getSource().latitude,
-        language: user.getSource().language
+        browserlang: user.getSource().browserlang
       })
       friendshipMap.set(user.getId(), [])
       return userMap.get(user.getId())
@@ -27,7 +27,7 @@ function makeUserDb () {
         password: user.getPassword(),
         longitude: user.getSource().longitude,
         latitude: user.getSource().latitude,
-        language: user.getSource().language
+        browserlang: user.getSource().browserlang
       })
       return userMap.get(user.getId())
     },

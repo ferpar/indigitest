@@ -17,7 +17,7 @@ function makeFakeUser (overrides, hemisphere = 'North') {
      latitude: hemisphere === 'North' 
         ? Math.abs(faker.address.latitude()) 
         : Math.abs(faker.address.latitude())*(-1),
-     language: languages[Math.floor(Math.random()*languages.length)]
+     browserlang: languages[Math.floor(Math.random()*languages.length)]
    }
  }
   return {
