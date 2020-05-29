@@ -18,9 +18,6 @@ const user5 = makeUser(userInfo5)
 
 describe('db-adapter for node-postgres(pg)', () => {
   afterAll( async () => {
-    //clean up the mess
-  //  await userDb.remove(user2.getId())
-  //  await userDb.remove(user3.getId())
     db.shutdown()
   })
   describe('insert, findById and update methods', () => {

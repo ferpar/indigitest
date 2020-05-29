@@ -10,6 +10,5 @@ pool.on('error', (err, client) => {
 
 module.exports = {
   query: (text, params, callback) => pool.query(text, params, callback),
-  connect: () => pool.connect(),
   shutdown: () => pool.end()
 }
