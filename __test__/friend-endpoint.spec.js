@@ -5,15 +5,12 @@ const makeUsersEndpointHandler = require('../src/controllers/user-endpoint')
 const makeFriendsEndpointHandler = require('../src/controllers/friend-endpoint')
 
 describe('friends endpoint handler', () => {
-  let handle
+  let handleFriendships
   beforeEach(()=> {
     const userDb = makeUserDb()
     const userActions = makeUserActions({ userDb })
     handleUser = makeUsersEndpointHandler({ userActions })
-    handle = makeFriendsEndpointHandler({ userActions })
-  })
-  it('has a working test', () => {
-    expect(1===1).toBe(true)
+    handleFriendships = makeFriendsEndpointHandler({ userActions })
   })
   it('creates new friendships', async () => {
     const user1Info = makeFakeUser()
@@ -28,7 +25,7 @@ describe('friends endpoint handler', () => {
       body: user2Info
     })
 
-    const result = await handle({
+    const result = await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
@@ -56,14 +53,14 @@ describe('friends endpoint handler', () => {
       body: user3Info
     })
 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
         id2: user2Info.id
       }
     }) 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
@@ -71,7 +68,7 @@ describe('friends endpoint handler', () => {
       }
     }) 
 
-    const result = await handle({
+    const result = await handleFriendships({
       method: 'GET',
       pathParams: {type: 'list', id: user1Info.id }
     })
@@ -97,14 +94,14 @@ describe('friends endpoint handler', () => {
       body: user3Info
     })
 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
         id2: user2Info.id
       }
     }) 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
@@ -112,7 +109,7 @@ describe('friends endpoint handler', () => {
       }
     }) 
 
-    const result = await handle({
+    const result = await handleFriendships({
       method: 'GET',
       pathParams: {type: 'count', id: user1Info.id }
     })
@@ -142,21 +139,21 @@ describe('friends endpoint handler', () => {
       body: user4Info
     })
 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
         id2: user2Info.id
       }
     }) 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
         id2: user3Info.id
       }
     }) 
-    await handle({
+    await handleFriendships({
       method: 'POST',
       body: {
         id1: user1Info.id,
@@ -164,7 +161,7 @@ describe('friends endpoint handler', () => {
       }
     }) 
 
-    await handle({
+    await handleFriendships({
       method: 'DELETE',
       body: {
         id1: user1Info.id,
@@ -172,7 +169,7 @@ describe('friends endpoint handler', () => {
       }
     })
 
-    const result = await handle({
+    const result = await handleFriendships({
       method: 'GET',
       pathParams: {type: 'list', id: user1Info.id }
     })

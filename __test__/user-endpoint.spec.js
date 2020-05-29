@@ -5,14 +5,14 @@ const makeUsersEndpointHandler = require('../src/controllers/user-endpoint')
 
 
 describe('users endpoint handler', () => {
-  let handle
+  let handleUser
   beforeEach(() => {
     const userDb = makeUserDb()
     const userActions = makeUserActions({ userDb })
-    handle = makeUsersEndpointHandler({ userActions })
+    handleUser = makeUsersEndpointHandler({ userActions })
   })
   it('creates new users', async () => {
-    const result = await handle({
+    const result = await handleUser({
       method: 'POST',
       body: makeFakeUser()
     })
@@ -22,12 +22,12 @@ describe('users endpoint handler', () => {
   it('finds users by id', async () => {
     const userInfo = makeFakeUser()
 
-    await handle({
+    await handleUser({
       method: 'POST',
       body: userInfo
     })
 
-    const result = await handle({
+    const result = await handleUser({
       method: 'GET',
       pathParams: { id: userInfo.id }
     })
@@ -35,21 +35,22 @@ describe('users endpoint handler', () => {
     expect(result.data.id).toBe(userInfo.id)
   })
   it('updates user information', async () => {
+    expect.assertions(2)
     const userInfo = makeFakeUser()
     const modifiedUserInfo = {...userInfo, username:"Manolo65"}
 
-    await handle({
+    const storedUser = await handleUser({
       method: 'POST',
       body: userInfo
     })
 
-    const updateResponse = await handle({
+    const updateResponse = await handleUser({
       method: 'PATCH',
       body: modifiedUserInfo
     })
     expect(updateResponse.statusCode).toBe(200)
 
-    const result = await handle({
+    const result = await handleUser({
       method: 'GET',
       pathParams: { id: userInfo.id }
     })
@@ -60,18 +61,18 @@ describe('users endpoint handler', () => {
     const userInfo = makeFakeUser()
     const modifiedUserInfo = {...userInfo, username:"Manolo65"}
 
-    await handle({
+    await handleUser({
       method: 'POST',
       body: userInfo
     })
 
-    const deleteResponse = await handle({
+    const deleteResponse = await handleUser({
       method: 'DELETE',
       pathParams: { id: userInfo.id }
     })
     expect(deleteResponse.statusCode).toBe(200)
 
-    const result = await handle({
+    const result = await handleUser({
       method: 'GET',
       pathParams: { id: userInfo.id }
     })
