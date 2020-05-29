@@ -18,7 +18,7 @@ function makeUserDb({ db }) {
           user.getEmail(),
           user.getPassword(),
           user.getUsername(), 
-          user.getSource().language,
+          user.getSource().browserlang,
           user.getSource().longitude,
           user.getSource().latitude
         ]
@@ -53,7 +53,7 @@ function makeUserDb({ db }) {
             user.getPassword(),
             user.getSource().longitude,
             user.getSource().latitude,
-            user.getSource().language,
+            user.getSource().browserlang,
             user.getId()
           ])
       return result.rows[0]

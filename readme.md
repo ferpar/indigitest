@@ -50,7 +50,7 @@ This exercise consisted in building an API according to the given specification.
   	"password": "lFgE9Cus7maKtpr",
   	"longitude": "27.3772", 
 	"latitude": "81.1052",
-	"language": "es"
+	"browserlang": "es"
 }
 
 ```
@@ -72,7 +72,7 @@ Note: The id must be supplied as well. This is something that would easily be fi
   	"password": "lFgE9Cus7maKtpr",
   	"longitude": "27.3772", 
 	"latitude": "81.1052",
-	"language": "es"
+	"browserlang": "es"
 }
 ```
 Only the id needs to remain the same in this case.

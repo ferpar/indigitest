@@ -37,10 +37,7 @@ function makeUsersEndpointHandler({ userActions }) {
           'Content-Type': 'application/json'
         },
         statusCode: 201,
-        data: storedUser ? {
-          id: storedUser.getId(),
-          username: storedUser.getUsername()
-        } : false
+        data: storedUser ? storedUser.getUser() : false
       }
     } catch (err) {
       console.error('[user endpoint handler] Error posting user', err)
@@ -66,7 +63,7 @@ function makeUsersEndpointHandler({ userActions }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: 201,
+        statusCode: 200,
         data: result.getUser()
       }
     } catch (err) {
@@ -110,22 +107,15 @@ function makeUsersEndpointHandler({ userActions }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: removed ? 200 : 204,
+        statusCode: 200,
         data: {removeCount: removed}
       }
     } catch (err) {
-      if (err.message === 'User not found'){
-        return makeHttpError({
-          error: err.message,
-          statusCode: 404
-        })
-      } else {
-        console.error('[user endpoint handler] Error removing user', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[user endpoint handler] Error removing user', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
 }

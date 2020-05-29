@@ -19,7 +19,7 @@ describe('social network user', () => {
       source:{
         longitude: 450,
         latitude: 30,
-        language: 'en'
+        browserlang: 'en'
       }
     })
     expect(() => makeUser(userObj)).toThrow('invalid longitude value: out of range (-180, 180)')
@@ -29,7 +29,7 @@ describe('social network user', () => {
       source:{
         longitude: -270,
         latitude: 30,
-        language: 'en'
+        browserlang: 'en'
       }
     })
     expect(() => makeUser(userObj)).toThrow('invalid longitude value: out of range (-180, 180)')
@@ -39,7 +39,7 @@ describe('social network user', () => {
       source:{
         longitude: 15,
         latitude: 93,
-        language: 'en'
+        browserlang: 'en'
       }
     })
     expect(() => makeUser(userObj)).toThrow('invalid latitude value: out of range (-90, 90)')
@@ -49,7 +49,7 @@ describe('social network user', () => {
       source:{
         longitude: 15,
         latitude: -91,
-        language: 'en'
+        browserlang: 'en'
       }
     })
     expect(() => makeUser(userObj)).toThrow('invalid latitude value: out of range (-90, 90)')
