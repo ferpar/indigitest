@@ -16,6 +16,12 @@ const user3 = makeUser(userInfo3)
 const user4 = makeUser(userInfo4)
 const user5 = makeUser(userInfo5)
 
+console.log(userInfo1)
+console.log(userInfo2)
+console.log(userInfo3)
+console.log(userInfo4)
+console.log(userInfo5)
+
 describe('db-adapter for node-postgres(pg)', () => {
   afterAll( async () => {
     db.shutdown()
@@ -54,9 +60,9 @@ describe('db-adapter for node-postgres(pg)', () => {
       await userDb.insert(user4)
     })
     afterAll(async () => {
-      await userDb.remove(user1)
-      await userDb.remove(user2)
-      await userDb.remove(user3)
+      await userDb.remove(user1.getId())
+      await userDb.remove(user2.getId())
+      await userDb.remove(user3.getId())
     })
     it('saves new friendships', async () => {
       const res1 = await userDb.addFriendship(user1.getId(), user2.getId()) 
