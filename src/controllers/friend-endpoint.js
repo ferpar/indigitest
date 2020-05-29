@@ -19,31 +19,26 @@ function makeFriendsEndpointHandler({ userActions }) {
   async function postFriendship(httpRequest){
     try {
       const { id1, id2 } = JSON.parse(JSON.stringify(httpRequest.body))
-      userActions.addFriendship(id1, id2)
+      const newFriendship = await userActions.addFriendship(id1, id2)
+      if (!id1 || !id2) {
+        return makeHttpError({
+          error: 'please provide both ids',
+          statusCode: 422
+        })
+      }
       return {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: 201
+        statusCode: 201,
+        data: newFriendship
       }
     } catch (err) {
-      if (err.message === 'Friendship already exists') {
-        return makeHttpError({
-          error: err.message,
-          statusCode: 409
-        })
-      } else if (err.message === 'Both ids are needed for establishing a friendship'){
-        return makeHttpError({
-          error: err.message,
-          statusCode: 422
-        })
-      } else {
-        console.error('[friend endpoint handler] Error posting friendship', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[friend endpoint handler] Error posting friendship', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
   async function getFriendship(httpRequest){
@@ -62,43 +57,36 @@ function makeFriendsEndpointHandler({ userActions }) {
           : {friendCount: result}
       }
     } catch (err) {
-      if (err.message === 'User not found'){
-        return makeHttpError({
-          error: err.message,
-          statusCode: 404
-        })
-      } else {
-        console.error('[friend endpoint handler] Error getting user friendships', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[friend endpoint handler] Error getting user friendships', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
   async function deleteFriendship(httpRequest){
     try {
       const { id1, id2 } = JSON.parse(JSON.stringify(httpRequest.body))
-      await userActions.removeFriendship(id1, id2)
+      const removal = await userActions.removeFriendship(id1, id2)
+      if (!id1 || !id2) {
+        return makeHttpError({
+          error: 'Both ids are needed to remove a friendship',
+          statusCode: 422
+        })
+      }
       return {
         headers: {
           'Content-Type': 'application/json'
         },
-        statusCode: 200
+        statusCode: removal ? 200 : 204,
+        data: {rowsRemoved: removal}
       }
     } catch (err) {
-      if (err.message === 'Both ids are needed to remove a friendship'){
-        return makeHttpError({
-          error: err.message,
-          statusCode: 422
-        })
-      } else {
-        console.error('[friend endpoint handler] Error removing friendship', err)
-        return makeHttpError({
-          error: err.message,
-          statusCode: 500
-        })
-      }
+      console.error('[friend endpoint handler] Error removing friendship', err)
+      return makeHttpError({
+        error: err.message,
+        statusCode: 500
+      })
     }
   }
 }

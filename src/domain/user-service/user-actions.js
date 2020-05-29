@@ -29,46 +29,16 @@ function makeUserActions ({ userDb }) {
     },
     getFriends: async userId => {
       const friendlist = await userDb.getFriends(userId)
-        .catch(err => {
-          if(err.message = 'No such user on the friendlist'){
-            throw new Error('User not found') 
-          } else {
-            console.error('[user-actions] Error getting friendships', err)
-          }
-        })
       return friendlist
     },
     addFriendship: async (userId1, userId2) => { 
-      await userDb.addFriendship(userId1, userId2)
-        .catch(err => {
-          if(err.message === 'friendship already stored'){
-            throw new Error('Friendship already exists')
-          } else if(err.message === 'missing an id parameter') {
-            throw new Error('Both ids are needed for establishing a friendship')
-          }else {
-            console.error('[user-actions] Error adding friendship', err)
-          }
-        })
+      return await userDb.addFriendship(userId1, userId2)
     },
     removeFriendship: async (userId1, userId2) => {
-      await userDb.removeFriendship(userId1, userId2)
-        .catch(err => {
-          if(err.message === 'missing an id parameter') {
-            throw new Error('Both ids are needed to remove a friendship')
-          } else {
-            console.error('[user-actions] Error removing friendship', err)
-          }
-        })
+      return await userDb.removeFriendship(userId1, userId2)
     },
     friendCount: async userId => { 
       const friendcount = await userDb.friendCount(userId)
-        .catch(err => {
-          if(err.message = 'No such user on the friendlist'){
-            throw new Error('User not found') 
-          } else {
-            console.error('[user-actions] Error getting friendcount', err)
-          }
-        })
       return friendcount
     }
   }

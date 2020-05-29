@@ -12,9 +12,6 @@ describe('friends endpoint handler', () => {
     handleUser = makeUsersEndpointHandler({ userActions })
     handleFriendships = makeFriendsEndpointHandler({ userActions })
   })
-  it('has a working test', () => {
-    expect(1===1).toBe(true)
-  })
   it('creates new friendships', async () => {
     const user1Info = makeFakeUser()
     const user2Info = makeFakeUser()
