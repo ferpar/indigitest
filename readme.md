@@ -191,13 +191,7 @@ CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON friendships
 
 ### things I would ve done given the time:
 
-- make sure no clients are leaked from the database pool
-- improve return values of several endpoints (give more feednback/information about each operation)
-- improve error handling, making the API more robust
-- add descriptions to the methods in each module
-- dockerize both server and database via docker-compose
 - configure via environment variables (dotenv)
-- refactor the tests for the database adapter
+- dockerize both server and database via docker-compose
 - encrypt password before storage
-- fix the use of JSON.parse(JSON.stringify()) to format input/output
 
