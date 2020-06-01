@@ -4,13 +4,20 @@
 
 ## Installation
 
-  To get this API to work you'll need:
-
-  1) Clone/download the repo and npm install as usual.
-  2) Configure the postgresql database by feeding the dbexport.pgsql file to psql, considering the following.
-      - db configuration ( as in ./src/db/config.json file )
-
-```
+  ### With dockerized postgres database:
+ 	1) Clone repo.
+	2) Install dependencies as usual.
+		```npm install```
+	3) Build the image for the database from the Dockerfile at the root, i.e.: 
+		```docker build -t indiPostgres```
+	4) Run the docker container for the database:
+		```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
+	5) Start the server 
+		```npm start ```
+	
+  Port and password must fit the values found in the config.json file found @ ./src/db/config.json
+  
+  ```
 {
 	"user": "postgres",
 	"password": "mysecpass",
@@ -19,6 +26,20 @@
 	"host": "localhost"		
 }
 ```
+### Without docker:
+
+  1) Clone repo 
+  2) Install dependencies:
+  	```npm install as usual```
+  3*) If your postgres database is not listening on the default port 5432, update the port at ./src/db/config.json.
+  4) Making sure that postgres is running, create a new database within postgres: 
+  	``` createdb -U postgres -T template0 indigitest```
+  5) Then restore the base schema from the dump: ./src/scripts/dbexport.pgsql
+	```psql -U postgres indigitest < ./src/scripts/dbexport.pgsql```
+  	Make sure to modify the path accordingly if your current directory is not the root of the project.
+  6) Finally, run the server: ```npm start```
+
+
   That should do it. Keep in mind the server has a hardcoded port of 9090 => so expect it at http://localhost:9090 if you don't mess around with the index.js.
 
 ## Description
