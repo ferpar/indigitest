@@ -4,6 +4,8 @@
 
 ## Setup Instructions
 
+ There are two options for a quick setup:
+
    ### Using docker for the database:
    
  1) Clone repo.
