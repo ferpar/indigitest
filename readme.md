@@ -4,16 +4,17 @@
 
 ## Installation
 
-  ### With dockerized postgres database:
- 	1) Clone repo.
-	2) Install dependencies as usual.
-		```npm install```
-	3) Build the image for the database from the Dockerfile at the root, i.e.: 
-		```docker build -t indiPostgres```
-	4) Run the docker container for the database:
-		```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
-	5) Start the server 
-		```npm start ```
+   ### Using docker for the database:
+   
+ 1) Clone repo.
+ 2) Install dependencies as usual.
+	```npm install```
+ 3) Build the image for the database from the Dockerfile at the root, i.e.: 
+	```docker build -t indiPostgres```
+ 4) Run the docker container for the database:
+	```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
+ 5) Start the server 
+	```npm start ```
 	
   Port and password must fit the values found in the config.json file found @ ./src/db/config.json
   
