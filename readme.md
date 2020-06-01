@@ -9,9 +9,9 @@
  1) Clone repo.
  2) Install dependencies as usual.
 	```npm install```
- 3) Build the image for the database from the Dockerfile at the root, i.e.: 
-	```docker build -t indiPostgres```
- 4) Run the docker container for the database:
+ 3) Build the database image using the Dockerfile at the root folder, i.e.: 
+	```docker build -t indiPostgres .```
+ 4) Run the database container:
 	```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
  5) Start the server 
 	```npm start ```
