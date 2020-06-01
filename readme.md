@@ -32,7 +32,7 @@
   1) Clone repo 
   2) Install dependencies:
   	```npm install as usual```
-  3*) If your postgres database is not listening on the default port 5432, update the port at ./src/db/config.json.
+  3) If your postgres database is not listening on the default port 5432, change the port at ./src/db/config.json.
   4) Making sure that postgres is running, create a new database within postgres: 
   	``` createdb -U postgres -T template0 indigitest```
   5) Then restore the base schema from the dump: ./src/scripts/dbexport.pgsql
