@@ -2,7 +2,7 @@
 ---
 
 
-## Basic Setup
+## Setup Instructions
 
    ### Using docker for the database:
    
