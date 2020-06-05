@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-psql -v ON_ERROR_STOP=1 -d indigitest --username "$POSTGRES_USER" <<-EOSQL
+psql -v ON_ERROR_STOP=1 -d indintdb --username "$POSTGRES_USER" <<-EOSQL
     CREATE TABLE Users ( 
       userId VARCHAR(25) NOT NULL PRIMARY KEY,
       email VARCHAR(30) NOT NULL,
