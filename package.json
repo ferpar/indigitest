@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "docker-start": "cross-env DOCKERCOMPOSE=true node ./src/index.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/src/"
+    ]
   },
   "keywords": [
     "tech",
@@ -18,6 +25,7 @@
   "author": "Fernando Perez de Ayala",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "faker": "^4.1.0",
     "jest": "^25.5.4"
   },
