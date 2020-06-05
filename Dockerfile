@@ -1,5 +1,8 @@
-FROM postgres
-COPY ./scripts/initAcreateDb.sh ./docker-entrypoint-initdb.d
-COPY ./scripts/initBimportDump.sh ./docker-entrypoint-initdb.d
-COPY ./scripts/initCimportDump4test.sh ./docker-entrypoint-initdb.d
+FROM node:10
+WORKDIR /user/src/app
+COPY  ./package.json ./
+RUN npm install
+COPY . .
+EXPOSE 9090
+CMD npm run docker-start 
 

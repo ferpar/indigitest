@@ -1,9 +1,0 @@
-{
-	"poolData": {
-		"user": "postgres",
-		"password": "mysecpass",
-		"database": "indigitest",
-		"port": "5432",
-		"host": "localhost"		
-	}
-}

@@ -1,6 +1,6 @@
 const { Pool } = require('pg')
 const env = process.env.NODE_ENV || 'development'
-const dbConfig = require(`./${env}.json`)
+const dbConfig = require(`./${env}`)
 
 const pool = new Pool({...dbConfig.poolData})
 
