@@ -191,4 +191,4 @@ $find_sym_trig$ LANGUAGE plpgsql;
 CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON friendships
 	FOR EACH ROW EXECUTE PROCEDURE find_sym_trig();
 ```
-Note: The same is done for the database used for integration testing, as can be seen in the intialization script @ ./src/scripts/initAcreateDb.sh .
+Note: The same is done for the database used for integration testing (indintdb), as can be seen in the intialization script @ ./src/scripts/initAcreateDb.sh .
