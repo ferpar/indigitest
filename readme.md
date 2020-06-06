@@ -4,21 +4,29 @@
 
 ## Setup Instructions
 
- There are two options for a quick setup:
+ There are three options for a quick setup:
+ 
+   ### Using docker-compose:
+   
+   1) Run the following command from the projects root directory: ```docker-compose up``` or ```sudo docker-compose up```
+   
+   The database information is permanently stored at ./dockerdata via a docker volume. Which will be created by docker-compose if not readily available. Make sure to give docker-compose the necessary permissions (via sudo if necessary). 
 
    ### Using docker for the database:
    
  1) Clone repo.
  2) Install dependencies as usual.
 	```npm install```
- 3) Build the database image using the Dockerfile at the root folder, i.e.: 
+ 3) Move to the scripts directory
+	
+ 4) Build the database image using the Dockerfile at the root folder, i.e.: 
 	```docker build -t indiPostgres .```
- 4) Run the database container:
+ 5) Run the database container:
 	```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
- 5) Start the server 
+ 6) Start the server 
 	```npm start ```
 	
-  Port and password must fit the values found in the config.json file found @ ./src/db/config.json
+  Port and password must fit the values found in the config files found @ ./src/db/development.js and .src/db/test.js
   
   ```
 {
@@ -34,26 +42,22 @@
   1) Clone repo 
   2) Install dependencies:
   	```npm install as usual```
-  3) If your postgres database is not listening on the default port 5432, change the port at ./src/db/config.json.
-  4) Making sure that postgres is running, create a new database within postgres: 
-  	``` createdb -U postgres -T template0 indigitest```
-  5) Then restore the base schema from the dump: ./src/scripts/dbexport.pgsql
-	```psql -U postgres indigitest < ./src/scripts/dbexport.pgsql```
-  	Make sure to modify the path accordingly if your current directory is not the root of the project.
-  6) Finally, run the server: ```npm start```
+  3) If your postgres database is not listening on the default port 5432, change the port at ./src/db/development.js and .src/db/test.js.
+  4) Making sure that postgres is running, run the database intialization script:
+  	```./scripts/initAcreateDb.sh```
+	Otherwise, make sure you create both databases as in the .sh file above.
+  5) Finally, run the server: ```npm start```
 
-
-  That should do it. Keep in mind the server has a hardcoded port of 9090 => so expect it at http://localhost:9090 if you don't mess around with the index.js.
 
 ## Description
 
 ### Project structure
 
-Please note how the service "user-actions" does not directly depend on the databse. This was done by injecting the db into the service by means of a factory function @ /src/domain/user-service/index.js.
+Please note how the service "user-actions" does not directly depend on the database. This was achieved by injecting the db into the service by means of a factory function @ /src/domain/user-service/index.js.
 
 ![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/dependencygraph.svg "Dependencies")
 
-The dependency injection pattern has been followed throughout the application. It allows to work separately on individual components on a test-driven basis (write tests first, then the code to fulfill the test assertions).
+The dependency injection pattern has been used throughout the application. It allows to work separately on individual components on a test-driven basis (write tests first, then the code to fulfill the test assertions).
 
 In a more object oriented fashion, this could also have been accomplished using typescript's interfaces instead of dependency injection and factory functions .
 
@@ -187,11 +191,4 @@ $find_sym_trig$ LANGUAGE plpgsql;
 CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON friendships
 	FOR EACH ROW EXECUTE PROCEDURE find_sym_trig();
 ```
-
-
-### things I would ve done given the time:
-
-- configure via environment variables (dotenv)
-- dockerize both server and database via docker-compose
-- encrypt password before storage
-
+Note: The same is done for the database used for integration testing, as can be seen in the intialization script @ ./src/scripts/initAcreateDb.sh .
