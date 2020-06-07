@@ -65,6 +65,10 @@ In a more object oriented fashion, this could also have been accomplished using 
 
 The API has been defined according to the openAPI specification. You may inspect it at [swaggerhub](https://app.swaggerhub.com/apis/frhack/indigitest/1.0.0) or take a look at the [openAPI.yaml](https://github.com/ferpar/indigitest/blob/master/assets/indigitestOpenAPI.yaml) within the assets folder.
 
+It has the following structure:
+
+![endpoints](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/APIStructure.png "Endpoints")
+
 
 ### Database
 
