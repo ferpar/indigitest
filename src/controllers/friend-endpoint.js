@@ -4,11 +4,13 @@ function makeFriendsEndpointHandler({ userActions }) {
   return function handle (httpRequest) {
     switch(httpRequest.method) {
       case 'POST':
-        return postFriendship(httpRequest)
+        if (RegExp('remove', 'g').test(httpRequest.path)) {
+          return deleteFriendship(httpRequest)
+        } else {
+          return postFriendship(httpRequest)
+        }
       case 'GET':
         return getFriendship(httpRequest)
-      case 'DELETE':
-        return deleteFriendship(httpRequest)
       default:
         return makeHttpError({
           statusCode: 405,

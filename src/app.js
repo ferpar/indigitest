@@ -16,6 +16,7 @@ server.put('/user/:id', usersEndpoint)
 server.delete('/user/:id', usersEndpoint)
 
 server.all('/friend', friendsEndpoint)
+server.post('/friend/remove', friendsEndpoint)
 server.get('/friend/:type/:id', friendsEndpoint)
 
 module.exports = server;
