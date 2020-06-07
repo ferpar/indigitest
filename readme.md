@@ -63,76 +63,8 @@ In a more object oriented fashion, this could also have been accomplished using 
 
 ### API
 
-This exercise consisted in building an API according to the given specification. As a result, the following API routes where created:
+The API has been defined according to the openAPI specification. You may inspect it [here](https://app.swaggerhub.com/apis/frhack/indigitest/1.0.0).
 
-#### /user endpoint
-- GET: Finds a user by its uuid identifier. Ex: http://localhost:9090/user/ck9wtqjex0000zqtl8yca3w0e 
-
-- POST: Creates a user given a JSON containing te required information. Body input example:
-
-```
-{
-	"id": "ck9vik2sw0000cytlchrg5kik",
-  	"username": "Fran.Dietrch27",
-  	"email": "Cale28@hotmail.cm",
-  	"password": "lFgE9Cus7maKtpr",
-  	"longitude": "27.3772", 
-	"latitude": "81.1052",
-	"browserlang": "es"
-}
-
-```
-SQL Constraints:
-
-id => Primary Key ;
-username => not null unique ;
-email => not null unique ;
-password => not null
-
-Note: The id must be supplied as well. This is something that would easily be fixed given the time. You may use the fakeUser generator @ __test__/fixtures/user.js, it uses the uuid package.
-
-- PATCH: Used to update Users by Id. Body input example:
-```
-{
-	"id": "ck9vik2sw0000cytlchrg5kik",
-  	"username": "Lola.Perez",
-  	"email": "Cale28@hotmail.cm",
-  	"password": "lFgE9Cus7maKtpr",
-  	"longitude": "27.3772", 
-	"latitude": "81.1052",
-	"browserlang": "es"
-}
-```
-Only the id needs to remain the same in this case.
-
-- DELETE: To remove users from the database. It also removes its friendships from the friends adjacency list. Ex: http://localhost:9090/user/ck9vik2sw0000cytlchrg5e8c .
-
-Similarly to the GET route, it takes the user id as a path parameter.
-
-#### /friend endpoint
-
-- GET: Retrieves either the friendlist or the friendcount of a user given its id. Has two path parameters: **type** and **id**. 
-  Follows the structure: /friend/:type/:id
-  Examples: 
-    http://localhost:9090/friend/count/ck9vik2sw0000cytlchrg5mai 
-    http://localhost:9090/friend/list/ck9vik2sw0000cytlchrg5mai
-
-- POST: Registers a new friendship given the id of both users in the friendship. Body input example:
-
-``` 
-{
-	"id1": "ck9vik2sw0000cytlchrg5e8c",
-	"id2": "ck9vik2sw0000cytlchrg5kak"
-}
-```
-- DELETE: Unregisters a friendship given the id of both friends. Takes a similar body input as the POST method.
-
-```
-{
-	"id1": "ck9vik2sw0000cytlchrg5e8c",
-	"id2": "ck9vik2sw0000cytlchrg5kak"
-}
-```
 
 ### Database
 
