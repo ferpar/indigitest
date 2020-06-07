@@ -9,7 +9,7 @@ function makeUsersEndpointHandler({ userActions }) {
         return postUser(httpRequest)
       case 'GET':
         return getUser(httpRequest)
-      case 'PATCH':
+      case 'PUT':
         return updateUser(httpRequest)
       case 'DELETE':
         return removeUser(httpRequest)
@@ -76,8 +76,9 @@ function makeUsersEndpointHandler({ userActions }) {
   }
   async function updateUser(httpRequest){
     try{
+      const { id } = httpRequest.pathParams
       const userInfo = httpRequest.body
-      const result = await userActions.update(userInfo)  
+      const result = await userActions.update({id, ...userInfo})  
       if (!result) {
         return makeHttpError({
           error: 'User not found',

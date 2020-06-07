@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  description: API for a tech proof, now turned into a learning exercise.
+    It models a bare-bones social network API.
+  version: "1.0.0"
+  title: indigitest API
+tags:
+  - name: user
+    description: Interface for the user object
+  - name: friends
+    description: Interface for relations between users
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Add a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: newly created user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  '/user/{userId}':
+    get:
+      tags:
+        - user
+      summary: Finds a user by id
+      parameters: 
+        - name: userId
+          in: path
+          description: ID of user that needs to be fetched
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user object with matching id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: user not found
+    put:
+      tags:
+        - user
+      summary: Updates a user
+      parameters: 
+        - name: userId
+          in: path
+          description: ID of user that needs to be fetched
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        '200':
+          description: user modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: user not found
+    delete:
+      tags:
+        - user
+      summary: Removes a user by id
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to be removed
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: returns remove count
+          content:
+            application/json:
+              schema:
+                properties:
+                  removeCount: 
+                    type: integer
+  /friend:
+    post:
+      tags:
+        - friends
+      summary: post new friendship
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id1:
+                  type: string
+                id2:
+                  type: string
+      responses:
+        '201':
+          description: registered a new friendship
+          content:
+            application/json:
+              schema:
+                properties:
+                  befriender:
+                    type: string
+                  userid:
+                    type: string
+  '/friend/remove':
+    post:
+      tags:
+        - friends
+      summary: remove friendship
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id1:
+                  type: string
+                id2:
+                  type: string
+      responses:
+        '200':
+          description: friendship deleted
+          content:
+            application/json:
+              schema:
+                properties:
+                  removeCount:
+                    type: integer
+        '204':
+          description: friendship not found/ already deleted
+          content:
+            application/json:
+              schema:
+                properties:
+                  removeCount:
+                    type: integer
+        '442':
+          description: wrong input, both ids are necessary
+  '/friend/{queryType}/{userId}':
+    get:
+      tags:
+        - friends
+      summary: get friends list or friends count of a user
+      parameters: 
+        - name: queryType
+          in: path
+          description: type of information requested
+          required: true
+          schema:
+            type: string
+            enum:
+              - list
+              - count
+        - name: userId
+          in: path
+          description: ID of user to be removed
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: friend list or friend count
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      friends: 
+                        type: array
+                        items: 
+                          type: string
+                  - properties:
+                      friendCount:
+                        type: integer
+components:
+  schemas:
+    User:
+      type: object
+      description: user object w/o password
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        source:
+          properties:
+            longitude:
+              type: number
+            latitude:
+              type: number
+            browserlang:
+              type: integer
+      xml:
+        name: User
+    UserInput:
+      type: object
+      description: flattened user object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        browserlang:
+          type: integer
+      xml:
+        name: UserInput
+    UserInfo:
+      type: object
+      description: flattened user object without id field
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        browserlang:
+          type: integer
+      xml:
+        name: UserInfo
