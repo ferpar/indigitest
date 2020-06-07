@@ -20,9 +20,9 @@
  3) Move to the scripts directory
 	
  4) Build the database image using the Dockerfile at the root folder, i.e.: 
-	```docker build -t indiPostgres .```
+	```docker build -t indipostgres .```
  5) Run the database container:
-	```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indiPostgres```
+	```docker run --name {container_name} -p 5432:5432 -e POSTGRES_PASSWORD=mysecpass -d indipostgres```
  6) Start the server 
 	```npm start ```
 	
