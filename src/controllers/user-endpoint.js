@@ -76,6 +76,7 @@ function makeUsersEndpointHandler({ userActions }) {
   }
   async function updateUser(httpRequest){
     try{
+      const { id } = httpRequest.pathParams
       const userInfo = httpRequest.body
       const result = await userActions.update(userInfo)  
       if (!result) {

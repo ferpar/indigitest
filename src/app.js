@@ -12,6 +12,7 @@ server.use(bodyParser.json())
 
 server.all('/user', usersEndpoint)
 server.get('/user/:id', usersEndpoint)
+server.put('/user/:id', usersEndpoint)
 server.delete('/user/:id', usersEndpoint)
 
 server.all('/friend', friendsEndpoint)
