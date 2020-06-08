@@ -33,12 +33,7 @@ paths:
         - user
       summary: Finds a user by id
       parameters: 
-        - name: userId
-          in: path
-          description: ID of user that needs to be fetched
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/userId'
       responses:
         '200':
           description: user object with matching id
@@ -53,12 +48,7 @@ paths:
         - user
       summary: Updates a user
       parameters: 
-        - name: userId
-          in: path
-          description: ID of user that needs to be fetched
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/userId'
       requestBody:
         content:
           application/json:
@@ -78,12 +68,7 @@ paths:
         - user
       summary: Removes a user by id
       parameters:
-        - name: userId
-          in: path
-          description: ID of user to be removed
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/userId'
       responses:
         '200':
           description: returns remove count
@@ -93,6 +78,8 @@ paths:
                 properties:
                   removeCount: 
                     type: integer
+                example:
+                  removeCount: 1
   /friend:
     post:
       tags:
@@ -107,6 +94,9 @@ paths:
                   type: string
                 id2:
                   type: string
+              example:
+                id1: ck9vik2sw0000cytlchrg5kik
+                id2: ck9vik2sw0000cytlchrg5cac
       responses:
         '201':
           description: registered a new friendship
@@ -118,6 +108,9 @@ paths:
                     type: string
                   userid:
                     type: string
+                example:
+                  befriender: ck9vik2sw0000cytlchrg5kik
+                  userid: ck9vik2sw0000cytlchrg5cac
   '/friend/remove':
     post:
       tags:
@@ -141,6 +134,8 @@ paths:
                 properties:
                   removeCount:
                     type: integer
+                example:
+                  removeCount: 1
         '204':
           description: friendship not found/ already deleted
           content:
@@ -151,42 +146,47 @@ paths:
                     type: integer
         '442':
           description: wrong input, both ids are necessary
-  '/friend/{queryType}/{userId}':
+  '/friend/list/{userId}':
     get:
       tags:
         - friends
       summary: get friends list or friends count of a user
       parameters: 
-        - name: queryType
-          in: path
-          description: type of information requested
-          required: true
-          schema:
-            type: string
-            enum:
-              - list
-              - count
-        - name: userId
-          in: path
-          description: ID of user to be removed
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/userId'
       responses:
         '200':
           description: friend list or friend count
           content:
             application/json:
               schema:
-                oneOf:
-                  - properties:
-                      friends: 
-                        type: array
-                        items: 
-                          type: string
-                  - properties:
-                      friendCount:
-                        type: integer
+                properties:
+                  friends: 
+                    type: array
+                    items: 
+                      type: string
+                example:
+                  friends:
+                    - userid: ck9vik2sw0000cytlchrg5woo
+                    - userid: ck9vik2sw0000cytlchrg5cac
+                    - userid: ck9vik2sw0000cytlchrg5kke
+  '/friend/count/{userId}':
+    get:
+      tags:
+        - friends
+      summary: get friends list or friends count of a user
+      parameters: 
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: number of friends the user has
+          content:
+            application/json:
+              schema:
+                properties:
+                  friendCount:
+                    type: integer
+                example:
+                  friendCount: 3
 components:
   schemas:
     User:
@@ -207,6 +207,14 @@ components:
               type: number
             browserlang:
               type: integer
+      example: 
+        id: ck9vik2sw0000cytlchrg5kik
+        username: Fran.Dietrch27
+        email: Cale30@hotail.cm
+        source:
+          longitude: 81.1052
+          latitude: 27.3772
+          browserlang: es
       xml:
         name: User
     UserInput:
@@ -227,6 +235,14 @@ components:
           type: number
         browserlang:
           type: integer
+      example:
+        id: ck9vik2sw0000cytlchrg5kik
+        username: Fran.Dietrch27
+        email: Cale30@hotail.cm
+        password: lFgE9Cus7maKtpr
+        longitude: 27.3772
+        latitude: 81.1052
+        browserlang: es
       xml:
         name: UserInput
     UserInfo:
@@ -245,5 +261,22 @@ components:
           type: number
         browserlang:
           type: integer
+      example: 
+        username: Fran.Dietrch27
+        email: Cale30@hotail.cm
+        password: lFgE9Cus7maKtpr
+        longitude: 27.3772
+        latitude: 81.1052
+        browserlang: es
       xml:
         name: UserInfo
+  parameters:
+    userId:
+      name: userId
+      in: path
+      description: uuid of user to operate on
+      required: true
+      schema:
+        type: string
+      example:
+        ck9vik2sw0000cytlchrg5kik
