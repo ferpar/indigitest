@@ -1,6 +1,13 @@
 require('./env.js')
 
-const server = require('./app')
+const app = require('./app')
 
-server.listen( process.env.PORT || 9090, () => console.log(`listening on port ${process.env.PORT || 9090}`))
+const server = app.listen( process.env.PORT || 9090, () => console.log(`listening on port ${process.env.PORT || 9090}`))
 
+process.on('SIGTERM', () => {
+  server.close(() => {
+    console.log('Process terminated')
+  })
+})
+
+module.exports = server

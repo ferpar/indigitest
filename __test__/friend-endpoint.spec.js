@@ -162,11 +162,12 @@ describe('friends endpoint handler', () => {
     }) 
 
     await handleFriendships({
-      method: 'DELETE',
+      method: 'POST',
       body: {
         id1: user1Info.id,
         id2: user3Info.id
-      }
+      },
+      path: '/friend/remove'
     })
 
     const result = await handleFriendships({
