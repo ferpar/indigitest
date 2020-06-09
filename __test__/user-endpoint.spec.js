@@ -45,8 +45,16 @@ describe('users endpoint handler', () => {
     })
 
     const updateResponse = await handleUser({
-      method: 'PATCH',
-      body: modifiedUserInfo
+      method: 'PUT',
+      body: {
+        username: modifiedUserInfo.username,
+        email: modifiedUserInfo.email,
+        password: modifiedUserInfo.password,
+        longitude: modifiedUserInfo.source.longitude,
+        latitude: modifiedUserInfo.source.latitude,
+        browserlang: modifiedUserInfo.source.browserlang
+      },
+      pathParams: { id: modifiedUserInfo.id }
     })
     expect(updateResponse.statusCode).toBe(200)
 
