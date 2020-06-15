@@ -59,7 +59,7 @@ describe('Indigitest API', () => {
     afterEach( async () => {
       await db.query(cleanupDbQuery) 
     })
-    describe('POST Method', () => {
+    describe('POST /user', () => {
       it('stores new users', async () => {
         const resp = await request(server)
           .post('/user')
@@ -100,7 +100,58 @@ describe('Indigitest API', () => {
       })
     })
   })
-  describe('/friend resource', () => {})
+  describe('/friend resource', () => {
+    beforeEach( async () => {
+      await resetInitialState()
+    })
+    afterEach( async () => {
+      await db.query(cleanupDbQuery) 
+    })
+    describe('POST /friend', () => {
+      it('registers a friendship', async () => {
+        const resp = await request(server)
+          .post('/friend')
+          .send({
+            id1:`${userObjects[2].getId()}`,
+            id2:`${userObjects[3].getId()}`
+          })
+        expect(resp.body.befriender).toEqual(userObjects[2].getId())
+        expect(resp.statusCode).toEqual(201)
+      })
+    })
+    describe('POST /friend/remove', () => {
+      it('removes a friendship', async () => {
+        const resp = await request(server)
+          .post('/friend/remove')
+          .send({
+            id1:`${userObjects[0].getId()}`,
+            id2:`${userObjects[3].getId()}`
+          })
+        expect(resp.body.removeCount).toEqual(1)
+        expect(resp.statusCode).toEqual(200)
+      })
+    })
+    describe('GET /friend/list/{userId}', () => {
+      it('gets a user\'s friends list', async () => {
+        const resp = await request(server)
+          .get(`/friend/list/${userObjects[0].getId()}`)
+        expect(resp.body.friends).toContainEqual(
+          {"userid": userObjects[1].getId()}, 
+          {"userid": userObjects[2].getId()},
+          {"userid": userObjects[3].getId()}
+        )
+        expect(resp.statusCode).toEqual(200)
+      })
+    })
+    describe('GET /friend/count/{userId}', () => {
+      it('gets a user\'s friend count', async () => {
+        const resp = await request(server)
+          .get(`/friend/count/${userObjects[0].getId()}`)
+        expect(resp.body.friendCount).toEqual(3)
+        expect(resp.statusCode).toEqual(200)
+      })
+    })
+  })
 })
 
 

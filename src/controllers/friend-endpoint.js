@@ -81,7 +81,7 @@ function makeFriendsEndpointHandler({ userActions }) {
           'Content-Type': 'application/json'
         },
         statusCode: removal ? 200 : 204,
-        data: {rowsRemoved: removal}
+        data: {removeCount: removal}
       }
     } catch (err) {
       console.error('[friend endpoint handler] Error removing friendship', err)
