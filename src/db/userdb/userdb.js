@@ -10,7 +10,7 @@ function makeUserDb({ db }) {
      */
     insert: async function(user) {
       const userText = 'INSERT INTO users (userid, email,' + 
-        ' password, username, browserlang, latitude, longitude)' +
+        ' password, username, browserlang, longitude, latitude)' +
         ' VALUES ($1, $2, $3, $4, $5, $6, $7)' +
         ' RETURNING *'
         const userParams = [
