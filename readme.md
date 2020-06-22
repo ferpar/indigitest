@@ -59,7 +59,7 @@ Please note how the service "user-actions" does not directly depend on the datab
 
 The dependency injection pattern has been used throughout the application. It allows to work separately on individual components on a test-driven basis (write tests first, then the code to fulfill the test assertions).
 
-In a more object oriented fashion, this could also have been accomplished using typescript's interfaces instead of dependency injection and factory functions .
+In a more object oriented fashion, this could also have been accomplished using typescript's interfaces.
 
 ### API
 
