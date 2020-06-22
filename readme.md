@@ -55,7 +55,7 @@
 
 The project is an example of domain driven design with a layered architecture. As expected of a RESTful API, it is Event-Driven and part of a Client-Server distributed system. 
 
-Emphasis was put on achieving dependency inversion between application layer and infrastructure details (web server and database).
+Emphasis was put on controlling dependency-direction so that the domain layer is independent, and dependencies flow up from the infrastructure details (web server and database) to the domain model.
 
 Please note how the service "user-actions" does not directly depend on the database. This was achieved by injecting the db into the service by means of a factory function @ /src/domain/user-service/index.js.
 
