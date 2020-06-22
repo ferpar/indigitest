@@ -53,6 +53,10 @@
 
 ### Project structure
 
+The project is an example of domain driven design with a layered architecture. As expected of a RESTful API, it is Event-Driven and part of a Client-Server distributed system. 
+
+Emphasis was put on achieving dependency inversion between application layer and infrastructure details (web server and database).
+
 Please note how the service "user-actions" does not directly depend on the database. This was achieved by injecting the db into the service by means of a factory function @ /src/domain/user-service/index.js.
 
 ![depgraph](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/dependencygraph.svg "Dependencies")
