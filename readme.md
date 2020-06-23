@@ -154,5 +154,5 @@ Integration | whole API | integration.spec.js
 
 As a byproduct of this methodology high code coverage is achieved without having to put emphasis on it.
 
-![Coverage](https://https://raw.githubusercontent.com/ferpar/indigitest/master/assets/code-coverage.png "Coverage")
+![Coverage](https://raw.githubusercontent.com/ferpar/indigitest/master/assets/code-coverage.png "Coverage")
 	
