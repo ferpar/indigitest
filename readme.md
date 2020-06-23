@@ -132,3 +132,27 @@ CREATE TRIGGER enforce_asymmetry BEFORE INSERT ON friendships
 	FOR EACH ROW EXECUTE PROCEDURE find_sym_trig();
 ```
 Note: The same is done for the database used for integration testing (indintdb), as can be seen in the intialization script @ ./src/scripts/initAcreateDb.sh .
+
+### Tests
+
+#### Summary
+
+This project was coded according to the TDD methodology in that test specifications almost always preceded the source-code implementation. The process started with the creation of a test specification for the user model and ended with the integration tests for the API (using supertest).
+
+#### List
+
+Test type | Tested Component(s)/System(s) | Test Spec
+--- | --- | ---
+Unitary | User Model | user.spec.js
+Unitary | User Service | user-service.spec.js
+Unitary | User Controller | use-endpoint.spec.js
+Unitary | User Controller | friend-endpoint.spec.js
+Integration | Database Accessor/Interface, Database | user-db.spec.js
+Integration | whole API | integration.spec.js
+
+#### Coverage
+
+As a byproduct of this methodology high code coverage is achieved without having to put emphasis on it.
+
+![Coverage](https://https://raw.githubusercontent.com/ferpar/indigitest/master/assets/code-coverage.png "Coverage")
+	
