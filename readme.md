@@ -53,7 +53,7 @@
 
 ### Project structure
 
-The project is an example of domain driven design with a layered architecture. As expected of a RESTful API, it is Event-Driven and part of a Client-Server distributed system. 
+The project follows a layered architecture, where the applicattion core (domain) has the minimum possible outbound dependencies. As expected of a RESTful API, it is Event-Driven and part of a Client-Server distributed system. 
 
 Emphasis was put on controlling dependency-direction so that the domain layer is independent, and dependencies flow up from the infrastructure details (web server and database) to the domain model.
 
